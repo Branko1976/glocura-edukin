@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glocura Edukin Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a dark "monitor" hero with a live ECG sweep and a strip of partner clocks,
+   then a light clinical-paper body with a ruled left margin like a case file. */
+:root{
+  --paper:#eef1f4;
+  --surface:#ffffff;
+  --ink:#0b1626;
+  --muted:#556174;
+  --line:#d3dae3;
+  --accent:#d7263d;      /* rhythm red */
+  --cobalt:#1f4fd8;      /* link / interactive */
+  --hero-bg:#0a1424;
+  --hero-ink:#eef2f7;
+  --hero-muted:#93a3ba;
+  --hero-line:#1f2d44;
+  /* Likert diverging scale (validated) */
+  --sd:#b3302f; --d:#ee8a84; --n:#c9c8c4; --a:#6a9fe6; --sa:#1f5fb8;
+  --seg-text-dark:#0b1626; --seg-text-light:#ffffff;
+  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --step--1:0.875rem; --step-0:1.0625rem; --step-1:1.3rem; --step-2:1.75rem; --step-3:2.5rem; --step-4:clamp(2.6rem, 7vw, 5.6rem);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0c121c; --surface:#121a26; --ink:#e7ecf3; --muted:#9aa7b9; --line:#24324a;
+    --accent:#ff5a6c; --cobalt:#86a6ff;
+    --hero-bg:#070c15; --hero-line:#1a2740;
+    --sd:#ff8f8c; --d:#c2413c; --n:#7a7a76; --a:#2c66b5; --sa:#86b8f5;
+    --seg-text-dark:#0b1626; --seg-text-light:#ffffff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0c121c; --surface:#121a26; --ink:#e7ecf3; --muted:#9aa7b9; --line:#24324a;
+  --accent:#ff5a6c; --cobalt:#86a6ff;
+  --hero-bg:#070c15; --hero-line:#1a2740;
+  --sd:#ff8f8c; --d:#c2413c; --n:#7a7a76; --a:#2c66b5; --sa:#86b8f5;
+  color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 var(--step-0)/1.6 var(--body);-webkit-font-smoothing:antialiased}
+a{color:var(--cobalt)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--cobalt);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
+.wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.mono{font-family:var(--mono)}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:0;z-index:20;background:color-mix(in srgb, var(--hero-bg) 92%, transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--hero-line)}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;color:var(--hero-ink);text-decoration:none;font-family:var(--display);font-weight:700;font-variation-settings:"wdth" 80;font-size:1.2rem;letter-spacing:.01em}
+.brand svg{flex:none}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a{color:var(--hero-muted);text-decoration:none;font-size:var(--step--1);padding:6px 10px;border-radius:6px}
+.nav a:hover{color:var(--hero-ink);background:var(--hero-line)}
+.nav a.cta{color:#fff;background:var(--accent)}
+@media (max-width:820px){.nav a:not(.cta){display:none}}
+
+/* ---------- hero ---------- */
+.hero{background:var(--hero-bg);color:var(--hero-ink);position:relative;overflow:hidden}
+.hero .wrap{position:relative;z-index:2;padding-top:clamp(40px,7vw,84px);padding-bottom:40px}
+.eyebrow{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--hero-muted)}
+.eyebrow b{color:var(--accent);font-weight:500}
+.wordmark{font-size:var(--step-4);font-weight:800;font-variation-settings:"wdth" 75, "opsz" 96;letter-spacing:-.02em;line-height:.9;margin:18px 0 0}
+.wordmark span{display:block;color:transparent;-webkit-text-stroke:1.5px var(--hero-ink)}
+.hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,5vw,64px);align-items:end}
+.lede{font-size:var(--step-1);line-height:1.45;color:var(--hero-ink);max-width:34ch;margin:0}
+.lede-sub{color:var(--hero-muted);max-width:52ch;margin:14px 0 0}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 var(--step--1)/1 var(--body);padding:12px 18px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{border-color:var(--hero-line);color:var(--hero-ink);background:transparent}
+.btn.ghost:hover{border-color:var(--hero-muted)}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+
+#ecg{display:block;width:100%;height:120px;margin-top:28px}
+
+/* clocks strip */
+.clocks-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1px solid var(--hero-line);padding-top:18px;margin-top:8px}
+.clocks-head p{margin:0;color:var(--hero-muted);font-size:var(--step--1)}
+.clocks-head strong{color:var(--hero-ink);font-weight:500}
+.clocks{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hero-line);border:1px solid var(--hero-line);border-radius:12px;overflow:hidden;margin-top:14px}
+.clock{background:var(--hero-bg);padding:14px 14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.clock .city{font-family:var(--display);font-weight:600;font-variation-settings:"wdth" 85;font-size:1.05rem}
+.clock .inst{font-size:.75rem;color:var(--hero-muted);line-height:1.3;min-height:2.6em}
+.clock .now{font-family:var(--mono);font-size:1.45rem;letter-spacing:-.02em;margin-top:8px;font-variant-numeric:tabular-nums}
+.clock .sess{font-family:var(--mono);font-size:.72rem;color:var(--hero-muted)}
+.clock .sess em{font-style:normal;color:var(--accent)}
+.clock .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--hero-line)}
+.clock .dot.day{background:#f6c344}
+@media (max-width:1000px){.clocks{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.clocks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------- sections ---------- */
+section.block{padding:clamp(56px,8vw,96px) 0;border-bottom:1px solid var(--line)}
+.sec-head{display:grid;grid-template-columns:180px 1fr;gap:24px;margin-bottom:36px}
+.sec-tag{font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:10px;border-top:2px solid var(--accent)}
+.sec-head h2{font-size:var(--step-3);font-weight:700;font-variation-settings:"wdth" 82;letter-spacing:-.01em}
+.sec-head p{margin:14px 0 0;color:var(--muted);max-width:64ch}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr;gap:10px}.sec-tag{width:max-content}}
+.indent{margin-left:204px}
+@media (max-width:760px){.indent{margin-left:0}}
+
+/* about pillars */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pillar{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.pillar .k{font-family:var(--mono);font-size:.75rem;color:var(--accent);letter-spacing:.08em;text-transform:uppercase}
+.pillar h3{font-size:var(--step-1);margin:10px 0 8px;font-weight:650;font-variation-settings:"wdth" 90}
+.pillar p{margin:0;color:var(--muted);font-size:.98rem}
+.about-text{max-width:66ch;font-size:1.12rem;margin:0 0 32px}
+.about-text em{font-style:normal;font-weight:600}
+@media (max-width:860px){.pillars{grid-template-columns:1fr}}
+
+/* session model */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;counter-reset:step}
+.step{padding:0 18px 0 0;position:relative}
+.step .rail{height:4px;background:var(--line);margin:0 0 18px;position:relative}
+.step.joint .rail{background:var(--accent)}
+.step .rail::before{content:"";position:absolute;left:0;top:-6px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--line)}
+.step.joint .rail::before{border-color:var(--accent)}
+.step .where{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.step.joint .where{color:var(--accent)}
+.step h3{font-size:1.25rem;margin:6px 0 8px;font-weight:650;font-variation-settings:"wdth" 88}
+.step p{margin:0;font-size:.95rem;color:var(--muted)}
+.step .t{font-family:var(--mono);font-size:.8rem;color:var(--ink);margin-top:10px;display:block}
+@media (max-width:900px){.flow{grid-template-columns:1fr 1fr;row-gap:32px}}
+@media (max-width:520px){.flow{grid-template-columns:1fr}}
+.note{margin-top:28px;font-size:.92rem;color:var(--muted);max-width:70ch}
+
+/* pilot */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:40px}
+.tile{background:var(--surface);padding:22px}
+.tile .num{font-family:var(--display);font-weight:700;font-size:3rem;line-height:1;font-variation-settings:"wdth" 75;font-variant-numeric:tabular-nums}
+.tile .num small{font-size:1.3rem;color:var(--muted);font-weight:500}
+.tile .lbl{margin-top:8px;font-size:.9rem;color:var(--muted)}
+@media (max-width:760px){.tiles{grid-template-columns:1fr 1fr}}
+
+.chart-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(16px,3vw,28px)}
+.chart-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.chart-top h3{font-size:var(--step-1);font-weight:650;font-variation-settings:"wdth" 90}
+.chart-top p{margin:6px 0 0;color:var(--muted);font-size:.9rem}
+.seg-ctl{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px;background:var(--paper)}
+.seg-ctl button{font:500 .85rem var(--body);color:var(--muted);background:transparent;border:0;padding:8px 14px;border-radius:999px;cursor:pointer}
+.seg-ctl button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin:0 0 16px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.axis-head{display:grid;grid-template-columns:minmax(150px,280px) 1fr;gap:16px;font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-bottom:6px}
+.axis-head .dir{display:flex}
+.rows{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:minmax(150px,280px) 1fr;gap:16px;align-items:center}
+.row .lab{font-size:.88rem;line-height:1.3;color:var(--ink)}
+.row .lab b{font-family:var(--mono);font-weight:400;color:var(--muted);margin-right:6px;font-size:.78rem}
+.track{position:relative;height:24px}
+.track::before{content:"";position:absolute;left:25%;top:-3px;bottom:-3px;width:1px;background:var(--muted);opacity:.5}
+.seg{position:absolute;top:0;height:24px;border-left:2px solid var(--surface);display:flex;align-items:center;justify-content:center;font:500 .72rem var(--mono);cursor:default}
+.seg:first-child{border-left:0}
+.seg.end-l{border-radius:4px 0 0 4px}
+.seg.end-r{border-radius:0 4px 4px 0}
+.seg:hover{filter:brightness(1.08)}
+.grid-ticks{display:grid;grid-template-columns:minmax(150px,280px) 1fr;gap:16px;margin-top:8px}
+.ticks{position:relative;height:18px;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%)}
+@media (max-width:640px){
+  .row,.axis-head,.grid-ticks{grid-template-columns:1fr;gap:4px}
+  .axis-head>span:first-child,.grid-ticks>span:first-child{display:none}
+  .row{margin-bottom:6px}
+}
+.tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--paper);font-size:.82rem;line-height:1.35;padding:8px 10px;border-radius:8px;max-width:280px;opacity:0;transition:opacity .12s}
+.tip b{font-weight:600}
+.table-wrap{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;font-size:.88rem}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+td.c,th.c{text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums}
+th{font-weight:600;color:var(--muted);font-size:.8rem}
+.chart-foot{margin-top:16px;font-size:.82rem;color:var(--muted)}
+
+.findings{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px}
+.panel h3{font-size:1.2rem;font-weight:650;font-variation-settings:"wdth" 90;margin-bottom:14px}
+.themes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:th}
+.themes li{display:grid;grid-template-columns:28px 1fr;gap:10px;font-size:.95rem}
+.themes li::before{counter-increment:th;content:counter(th, decimal-leading-zero);font-family:var(--mono);font-size:.78rem;color:var(--accent);padding-top:3px}
+.themes li span{color:var(--muted)}
+.sites{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.site{border-top:3px solid var(--ink);padding-top:10px}
+.site.ngy{border-color:var(--accent)}
+.site h4{margin:0 0 6px;font-family:var(--display);font-size:1.05rem;font-weight:650}
+.site p{margin:0;color:var(--muted);font-size:.92rem}
+.caveat{margin:16px 0 0;font-size:.85rem;color:var(--muted);border-left:2px solid var(--line);padding-left:12px}
+@media (max-width:860px){.findings{grid-template-columns:1fr}}
+
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+blockquote{margin:0;font-family:var(--display);font-weight:500;font-variation-settings:"wdth" 92;font-size:1.3rem;line-height:1.3;letter-spacing:-.005em}
+blockquote::before{content:"\201C";display:block;color:var(--accent);font-size:3rem;line-height:.6;margin-bottom:8px}
+blockquote footer{margin-top:12px;font:400 .8rem var(--mono);color:var(--muted)}
+@media (max-width:860px){.quotes{grid-template-columns:1fr}}
+
+.pub{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;margin-top:40px;padding:22px;border:1px dashed var(--line);border-radius:14px}
+.pub .badge{font:500 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;background:var(--ink);color:var(--paper);padding:6px 10px;border-radius:6px;white-space:nowrap}
+.pub p{margin:0}
+.pub .t{font-family:var(--display);font-weight:600;font-size:1.15rem;line-height:1.25}
+.pub .m{color:var(--muted);font-size:.9rem;margin-top:6px}
+@media (max-width:560px){.pub{grid-template-columns:1fr}}
+
+/* phase 2 */
+.p2{display:grid;grid-template-columns:1fr 1.3fr;gap:32px;align-items:start}
+.module{background:var(--hero-bg);color:var(--hero-ink);border-radius:16px;padding:28px;position:relative;overflow:hidden}
+.module .k{font:500 .75rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--hero-muted)}
+.module h3{font-size:2.2rem;font-weight:750;font-variation-settings:"wdth" 78;margin:10px 0 14px;line-height:1}
+.module h3 span{color:var(--accent)}
+.module dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:20px 0 0;font-size:.92rem}
+.module dt{font-family:var(--mono);font-size:.75rem;color:var(--hero-muted);padding-top:3px;text-transform:uppercase;letter-spacing:.06em}
+.module dd{margin:0}
+.organs{display:flex;gap:8px;flex-wrap:wrap}
+.organs span{border:1px solid var(--hero-line);padding:5px 12px;border-radius:999px;font-size:.85rem}
+.network{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.network li{display:grid;grid-template-columns:1fr auto auto;gap:16px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line)}
+.network .nm{font-weight:500}
+.network .nm small{display:block;color:var(--muted);font-weight:400;font-size:.85rem}
+.network .cty{font-size:.85rem;color:var(--muted)}
+.network .off{font:500 .8rem var(--mono);font-variant-numeric:tabular-nums;color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:3px 8px;border-radius:6px;min-width:84px;text-align:center}
+.network li.lead .nm::after{content:"Co-lead";margin-left:8px;font:500 .66rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--accent);padding:2px 6px;border-radius:4px;vertical-align:2px}
+@media (max-width:860px){.p2{grid-template-columns:1fr}}
+@media (max-width:480px){.network li{grid-template-columns:1fr auto}.network .cty{display:none}}
+
+/* timeline */
+.tl{list-style:none;margin:0;padding:0;position:relative}
+.tl::before{content:"";position:absolute;left:150px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl li{display:grid;grid-template-columns:150px 1fr;gap:32px;padding:0 0 26px;position:relative}
+.tl li::after{content:"";position:absolute;left:144px;top:6px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:2px solid var(--muted)}
+.tl li.key::after{background:var(--accent);border-color:var(--accent)}
+.tl li.next::after{border-style:dashed}
+.tl time{font-family:var(--mono);font-size:.85rem;color:var(--muted);text-align:right;padding-right:8px}
+.tl h3{font-size:1.15rem;font-weight:650;font-variation-settings:"wdth" 90;margin:0 0 4px}
+.tl p{margin:0;color:var(--muted);font-size:.95rem;max-width:62ch}
+@media (max-width:600px){
+  .tl::before{left:6px}
+  .tl li{grid-template-columns:1fr;gap:2px;padding-left:30px}
+  .tl li::after{left:0}
+  .tl time{text-align:left}
+}
+
+/* team */
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.person{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.4rem;color:#fff;font-variation-settings:"wdth" 80}
+.person h3{font-size:1.4rem;font-weight:700;font-variation-settings:"wdth" 85}
+.person .role{font:500 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.person p{margin:0;color:var(--muted);font-size:.93rem}
+.person .loc{font-family:var(--mono);font-size:.78rem;color:var(--ink);margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
+.also{margin-top:24px;font-size:.95rem;color:var(--muted)}
+@media (max-width:900px){.team{grid-template-columns:1fr}}
+
+/* join */
+.join{display:grid;grid-template-columns:1.2fr 1fr;gap:32px}
+.ask{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.ask li{display:grid;grid-template-columns:32px 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.ask li b{font-family:var(--mono);font-weight:500;color:var(--accent)}
+.contact{background:var(--hero-bg);color:var(--hero-ink);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:18px}
+.contact h3{font-size:1.6rem;font-weight:700;font-variation-settings:"wdth" 82}
+.contact p{margin:0;color:var(--hero-muted);font-size:.95rem}
+.mail{display:flex;justify-content:space-between;gap:12px;align-items:center;border-top:1px solid var(--hero-line);padding-top:14px;flex-wrap:wrap}
+.mail .who{font-size:.85rem;color:var(--hero-muted)}
+.mail .addr{font-family:var(--mono);font-size:.95rem;color:var(--hero-ink);word-break:break-all}
+.copy{font:500 .8rem var(--body);background:transparent;color:var(--hero-ink);border:1px solid var(--hero-line);border-radius:999px;padding:7px 14px;cursor:pointer}
+.copy:hover{border-color:var(--hero-muted)}
+@media (max-width:860px){.join{grid-template-columns:1fr}}
+
+footer.site-foot{padding:36px 0 48px;color:var(--muted);font-size:.85rem}
+footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Glocura Edukin, back to top">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <circle cx="15" cy="15" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <ellipse cx="15" cy="15" rx="6" ry="13" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
+        <path d="M2 16h7l2-4 3 10 3-15 2 9h9" fill="none" stroke="#ff5a6c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      Glocura Edukin
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#model">Session model</a>
+      <a href="#pilot">Pilot</a>
+      <a href="#network">Network</a>
+      <a href="#timeline">Timeline</a>
+      <a href="#team">Team</a>
+      <a class="cta" href="#join">Join</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow"><b>●</b> Global medical education partnership</div>
+        <h1 class="wordmark">Glocura<span>Edukin</span></h1>
+      </div>
+      <div>
+        <p class="lede">Medical students in different countries watch the same clinical video, then reason through it together.</p>
+        <p class="lede-sub">A video-triggered problem-based learning (PBL) collaboration led by Lancaster Medical School and Nagoya University Graduate School of Medicine, now growing into a network across Europe, Asia and Africa.</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#join">Bring your institution in</a>
+          <a class="btn ghost" href="#pilot">See the pilot results</a>
+        </div>
+      </div>
+    </div>
+
+    <canvas id="ecg" aria-hidden="true"></canvas>
+
+    <div class="clocks-head">
+      <p><strong>One live hour, many classrooms.</strong> Local time now, and when the 9 October 2026 joint session started.</p>
+      <p class="mono" id="utc-now"></p>
+    </div>
+    <div class="clocks" id="clocks"></div>
+  </div>
+</section>
+
+<main>
+
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">01 · About</div>
+      <div>
+        <h2>Learning medicine with peers from another health system</h2>
+        <p>Glocura Edukin brings students from partner medical schools into one shared session. They meet the same patient on screen, write down what they noticed, and compare their reasoning in small mixed groups before each school runs the case in its own PBL tutorials.</p>
+      </div>
+    </div>
+    <div class="indent">
+      <p class="about-text">The project rests on <em>sociocultural learning theory</em>: knowledge is built through social interaction, and talking with peers trained in a different setting exposes the assumptions each group brings to a clinical encounter.</p>
+      <div class="pillars">
+        <article class="pillar">
+          <div class="k">Scaffold</div>
+          <h3>A short clinical video</h3>
+          <p>A real-time clinical scene gives every student the same starting point, regardless of language, curriculum or year.</p>
+        </article>
+        <article class="pillar">
+          <div class="k">Hook</div>
+          <h3>A shared PBL case</h3>
+          <p>A scenario written by Lancaster Medical School is delivered at every partner site, so the discussion carries into each local tutorial.</p>
+        </article>
+        <article class="pillar">
+          <div class="k">Dialogue</div>
+          <h3>Cross-institutional groups</h3>
+          <p>Breakout rooms mix students from different universities to compare impressions, priorities and ways of working.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="model">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">02 · Session model</div>
+      <div>
+        <h2>How a Glocura Edukin session runs</h2>
+        <p>Red steps happen live with every partner online together. Grey steps run locally at each school.</p>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="step">
+        <div class="rail"></div>
+        <div class="where">Before · each student</div>
+        <h3>Watch the video</h3>
+        <p>Students receive the clinical clip in advance, so the live hour is spent on discussion rather than streaming.</p>
+        <span class="t">≈ 10 minutes</span>
+      </div>
+      <div class="step joint">
+        <div class="rail"></div>
+        <div class="where">Live · joint</div>
+        <h3>Reflect</h3>
+        <p>Each student writes a brief reflective summary: impressions, emotional reactions and learning points.</p>
+        <span class="t">08:00 UK</span>
+      </div>
+      <div class="step joint">
+        <div class="rail"></div>
+        <div class="where">Live · joint</div>
+        <h3>Discuss across sites</h3>
+        <p>Small cross-cultural breakout groups compare what students saw and how they would act.</p>
+        <span class="t">until 09:00 UK</span>
+      </div>
+      <div class="step">
+        <div class="rail"></div>
+        <div class="where">Local · each school</div>
+        <h3>Work the PBL case</h3>
+        <p>Every institution runs its own PBL tutorial on the same shared scenario.</p>
+        <span class="t">usual tutorial slot</span>
+      </div>
+      <div class="step">
+        <div class="rail"></div>
+        <div class="where">After · each student</div>
+        <h3>Evaluate</h3>
+        <p>A Likert-scale questionnaire on the video and the PBL scenario, plus open comments.</p>
+        <span class="t">online form</span>
+      </div>
+    </div>
+    <p class="note">The live hour sits at 08:00 UK time because it lands inside the working day for every partner, from 09:00 in Zimbabwe to 16:00 in Nagoya (October dates).</p>
+  </div>
+</section>
+
+<section class="block" id="pilot">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">03 · Pilot 2025</div>
+      <div>
+        <h2>Lancaster × Nagoya: a cardiac arrest, discussed in two countries</h2>
+        <p>In September 2025, students from both schools watched a hospital cardiac arrest scene from the British medical drama <i>Casualty</i>, wrote reflections, met in joint breakout rooms over Zoom, and then worked a Lancaster cardiovascular PBL case.</p>
+      </div>
+    </div>
+
+    <div class="tiles">
+      <div class="tile"><div class="num">12</div><div class="lbl">medical students, six from each university</div></div>
+      <div class="tile"><div class="num">20.7<small> yrs</small></div><div class="lbl">mean age, with equal numbers of men and women</div></div>
+      <div class="tile"><div class="num">28</div><div class="lbl">Likert items on the video and the PBL scenario</div></div>
+      <div class="tile"><div class="num">12<small>/12</small></div><div class="lbl">agreed clinical reasoning and teamwork were clearly shown</div></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-top">
+        <div>
+          <h3 id="chart-title">How students rated the video</h3>
+          <p>Number of students (of 12) giving each response. Bars split at the neutral point: agreement to the right, disagreement to the left.</p>
+        </div>
+        <div class="seg-ctl" role="group" aria-label="Choose question set">
+          <button type="button" id="btn-video" aria-pressed="true">Video · items 1–13</button>
+          <button type="button" id="btn-pbl" aria-pressed="false">PBL case · 14–28</button>
+          <button type="button" id="btn-table" aria-pressed="false">Table</button>
+        </div>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:var(--sd)"></i>Strongly disagree</span>
+        <span><i style="background:var(--d)"></i>Disagree</span>
+        <span><i style="background:var(--n)"></i>Neutral</span>
+        <span><i style="background:var(--a)"></i>Agree</span>
+        <span><i style="background:var(--sa)"></i>Strongly agree</span>
+      </div>
+      <div id="chart-area"></div>
+      <p class="chart-foot">Source: pilot questionnaire, Lancaster University and Nagoya University, September 2025 (n = 12). Descriptive counts only; no inferential testing.</p>
+    </div>
+
+    <div class="findings">
+      <div class="panel">
+        <h3>Seven themes in the written reflections</h3>
+        <ol class="themes">
+          <li><div>Engagement and realism <span>· seeing the scene made the topic stick</span></div></li>
+          <li><div>Teamwork and communication <span>· clear roles and open sharing</span></div></li>
+          <li><div>Clinical and ethical decision-making <span>· when to stop, and who decides</span></div></li>
+          <li><div>Academic and clinical depth <span>· some wanted more detail</span></div></li>
+          <li><div>Educational effectiveness <span>· easier to focus than text</span></div></li>
+          <li><div>Structural and technical barriers <span>· time, audio, pacing</span></div></li>
+          <li><div>Site-dependent learning <span>· value of the other school's view</span></div></li>
+        </ol>
+      </div>
+      <div class="panel">
+        <h3>Where the two schools put the emphasis</h3>
+        <div class="sites">
+          <div class="site">
+            <h4>Lancaster</h4>
+            <p>Reflections more often discussed clinical realism, medical depth and professional identity.</p>
+          </div>
+          <div class="site ngy">
+            <h4>Nagoya</h4>
+            <p>Reflections more often highlighted teamwork, communication and collective responsibility.</p>
+          </div>
+        </div>
+        <p class="caveat">These are exploratory, site-level patterns from a small sample. Setting, stage of training and familiarity with a UK video may all contribute, so they are not read as national cultural traits.</p>
+      </div>
+    </div>
+
+    <div class="quotes">
+      <blockquote>Recognising when not to do things is as important as recognising when to do them.<footer>Pilot participant</footer></blockquote>
+      <blockquote>The England student gave me new ideas… motivating.<footer>Pilot participant</footer></blockquote>
+      <blockquote>I really enjoyed discussing the differences between UK and Japan.<footer>Pilot participant</footer></blockquote>
+    </div>
+
+    <div class="pub">
+      <span class="badge">Manuscript</span>
+      <div>
+        <p class="t">Evaluating Video-Enhanced Cardiovascular Teaching in PBL Settings: Insights from UK and Japanese Medical Students. A pilot study.</p>
+        <p class="m">Chaudhary A, Bustos Villalobos I, Aleksic B, Katti K. Revised manuscript submitted to <i>BMC Medical Education</i>, 2026.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="network">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">04 · Phase 2 · 2026</div>
+      <div>
+        <h2>From two schools to an international network</h2>
+        <p>Building on the pilot, the project now runs joint sessions across several body systems with partner institutions on three continents.</p>
+      </div>
+    </div>
+    <div class="p2">
+      <div class="module">
+        <div class="k">Current module</div>
+        <h3>Hepato&shy;biliary <span>system</span></h3>
+        <div class="organs"><span>Liver</span><span>Pancreas</span><span>Gallbladder</span></div>
+        <dl>
+          <dt>Joint session</dt><dd>Friday 9 October 2026, 08:00–09:00 UK</dd>
+          <dt>Scenario</dt><dd>PBL case developed by Lancaster University</dd>
+          <dt>Video</dt><dd>Short clinical clip sent to students in advance</dd>
+          <dt>Evaluation</dt><dd>29-item Likert questionnaire on the video and the PBL experience</dd>
+        </dl>
+      </div>
+      <div>
+        <ul class="network" aria-label="Partner institutions">
+          <li class="lead"><div class="nm">Lancaster Medical School<small>Lancaster University</small></div><span class="cty">United Kingdom</span><span class="off">UTC+0/+1</span></li>
+          <li class="lead"><div class="nm">Graduate School of Medicine<small>Nagoya University</small></div><span class="cty">Japan</span><span class="off">UTC+9</span></li>
+          <li><div class="nm">AIIMS Rishikesh<small>Department of Anatomy</small></div><span class="cty">India</span><span class="off">UTC+5:30</span></li>
+          <li><div class="nm">Jaipur National University<small>Department of Anatomy</small></div><span class="cty">India</span><span class="off">UTC+5:30</span></li>
+          <li><div class="nm">Krishna Vishwa Vidyapeeth<small>Department of Anatomy, Karad</small></div><span class="cty">India</span><span class="off">UTC+5:30</span></li>
+          <li><div class="nm">Midlands State University</div><span class="cty">Zimbabwe</span><span class="off">UTC+2</span></li>
+          <li><div class="nm">Ajman University</div><span class="cty">United Arab Emirates</span><span class="off">UTC+4</span></li>
+          <li><div class="nm">Partner faculty, Istanbul</div><span class="cty">Türkiye</span><span class="off">UTC+3</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="timeline">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">05 · Timeline</div>
+      <div><h2>Milestones so far</h2></div>
+    </div>
+    <ol class="tl">
+      <li class="key"><time>Sep 2025</time><div><h3>Pilot joint session</h3><p>Twelve Lancaster and Nagoya students watch a cardiac arrest scene, reflect, and meet in joint Zoom breakout rooms, followed by a cardiovascular PBL session.</p></div></li>
+      <li><time>Oct 2025</time><div><h3>Analysis and writing</h3><p>Questionnaire and reflection data are analysed across both sites.</p></div></li>
+      <li><time>Jan 2026</time><div><h3>Nagoya team visits Lancaster</h3><p>Planning for an expanded network, partners in India, and student exchange between the two schools.</p></div></li>
+      <li><time>Mar 2026</time><div><h3>Pilot manuscript submitted</h3><p>Submitted to <i>BMC Medical Education</i>.</p></div></li>
+      <li><time>Jun 2026</time><div><h3>Phase 2 invitations</h3><p>Partner institutions are invited to the next phase, covering multiple body systems.</p></div></li>
+      <li><time>Aug 2026</time><div><h3>First all-partner planning meeting</h3><p>Representatives from the UK, Japan, India, Zimbabwe, the UAE and Türkiye plan the joint sessions.</p></div></li>
+      <li><time>Sep 2026</time><div><h3>Minor revision</h3><p>Reviewers recognise the work's contribution to cross-institutional medical education; the revised manuscript is resubmitted.</p></div></li>
+      <li class="key"><time>9 Oct 2026</time><div><h3>Phase 2 joint session</h3><p>Hepatobiliary module: liver, pancreas and gallbladder, 08:00 UK / 16:00 Japan.</p></div></li>
+      <li class="next"><time>Next</time><div><h3>More systems, more partners</h3><p>Further body-system modules, student exchange between Lancaster and Nagoya, and new partner schools.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="block" id="team">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">06 · Team</div>
+      <div><h2>Project leaders</h2></div>
+    </div>
+    <div class="team">
+      <article class="person">
+        <div class="avatar" style="background:#1f4fd8">KK</div>
+        <div><div class="role">Project co-lead · UK</div><h3>Karuna Katti</h3></div>
+        <p>MD, PhD. Associate Professor and Director of the Clinical Anatomy Learning Centre at Lancaster Medical School. Leads the PBL scenarios and coordinates the partner network.</p>
+        <div class="loc">Lancaster University, United Kingdom</div>
+      </article>
+      <article class="person">
+        <div class="avatar" style="background:#d7263d">BA</div>
+        <div><div class="role">Project co-lead · Japan</div><h3>Branko Aleksic</h3></div>
+        <p>MD, PhD. Associate Professor in the Department of International Medical Education, Nagoya University Graduate School of Medicine, and Editor-in-Chief of <i>International Medical Education</i>.</p>
+        <div class="loc">Nagoya University, Japan</div>
+      </article>
+      <article class="person">
+        <div class="avatar" style="background:#0f7a6b">IB</div>
+        <div><div class="role">Project co-lead · Japan</div><h3>Itzel Bustos Villalobos</h3></div>
+        <p>MD, PhD. Associate Professor, Department of International Medical Education, Nagoya University Graduate School of Medicine.</p>
+        <div class="loc">Nagoya University, Japan</div>
+      </article>
+    </div>
+    <p class="also">Pilot study co-investigator: Ahsan Chaudhary, Lancaster Medical School.</p>
+  </div>
+</section>
+
+<section class="block" id="join" style="border-bottom:0">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag">07 · Join</div>
+      <div>
+        <h2>Bring your students into the next session</h2>
+        <p>We welcome medical schools that can join a one-hour live session at 08:00 UK time and run the shared PBL case locally.</p>
+      </div>
+    </div>
+    <div class="join">
+      <div>
+        <ul class="ask">
+          <li><b>01</b><div>Name, title and email of your designated research collaborator.</div></li>
+          <li><b>02</b><div>Your institution's name and full postal address, for the ethics application.</div></li>
+          <li><b>03</b><div>A group of students for the live session and a local PBL tutorial slot.</div></li>
+          <li><b>04</b><div>Help sharing the post-session questionnaire with your students.</div></li>
+        </ul>
+      </div>
+      <aside class="contact">
+        <h3>Get in touch</h3>
+        <p>Write to either project leader and we will send the session pack and dates.</p>
+        <div class="mail">
+          <div><div class="who">Karuna Katti · Lancaster</div><div class="addr">k.katti@lancaster.ac.uk</div></div>
+          <button class="copy" type="button" data-copy="k.katti@lancaster.ac.uk">Copy</button>
+        </div>
+        <div class="mail">
+          <div><div class="who">Branko Aleksic · Nagoya</div><div class="addr">branko@med.nagoya-u.ac.jp</div></div>
+          <button class="copy" type="button" data-copy="branko@med.nagoya-u.ac.jp">Copy</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>Glocura Edukin Project · Lancaster University × Nagoya University</span>
+    <span class="mono">Global medical education partnership · 2026</span>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script>
+(function(){
+  /* ---------- partner clocks ---------- */
+  const SESSION_UTC = Date.UTC(2026, 9, 9, 7, 0); // 9 Oct 2026, 08:00 BST
+  const cities = [
+    {city:"Lancaster", inst:"Lancaster Medical School", tz:"Europe/London"},
+    {city:"Nagoya", inst:"Nagoya University", tz:"Asia/Tokyo"},
+    {city:"Istanbul", inst:"Partner faculty", tz:"Europe/Istanbul"},
+    {city:"Ajman", inst:"Ajman University", tz:"Asia/Dubai"},
+    {city:"Zimbabwe", inst:"Midlands State University", tz:"Africa/Harare"},
+    {city:"India", inst:"AIIMS Rishikesh · JNU Jaipur · KVV Karad", tz:"Asia/Kolkata"}
+  ];
+  const host = document.getElementById("clocks");
+  const fmt = tz => new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:tz});
+  cities.forEach(c=>{
+    const el = document.createElement("div");
+    el.className = "clock";
+    el.innerHTML = `<div class="city">${c.city}</div><div class="inst">${c.inst}</div>
+      <div class="now"><span class="dot"></span><span class="t">--:--</span></div>
+      <div class="sess">9 Oct session <em>${fmt(c.tz).format(SESSION_UTC)}</em></div>`;
+    c.el = el; host.appendChild(el);
+  });
+  function tick(){
+    const now = new Date();
+    cities.forEach(c=>{
+      const t = fmt(c.tz).format(now);
+      c.el.querySelector(".t").textContent = t;
+      const h = parseInt(t.slice(0,2),10);
+      c.el.querySelector(".dot").classList.toggle("day", h>=8 && h<18);
+      c.el.querySelector(".dot").title = (h>=8 && h<18) ? "Working hours" : "Outside working hours";
+    });
+    document.getElementById("utc-now").textContent = "UTC " + fmt("UTC").format(now) + " · yellow dot = working hours";
+  }
+  tick(); setInterval(tick, 15000);
+
+  /* ---------- ECG sweep ---------- */
+  const cv = document.getElementById("ecg"), ctx = cv.getContext("2d");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W=0,H=0,pts=[];
+  function beat(x){ // one PQRST complex over unit width 0..1, returns -1..1
+    const g=(m,s,a)=>a*Math.exp(-((x-m)**2)/(2*s*s));
+    return g(.18,.025,.12)+g(.36,.008,-.12)+g(.40,.010,1)+g(.44,.010,-.28)+g(.66,.045,.25);
+  }
+  function build(){
+    const r = window.devicePixelRatio||1;
+    W = cv.clientWidth; H = cv.clientHeight;
+    cv.width = W*r; cv.height = H*r; ctx.setTransform(r,0,0,r,0,0);
+    pts=[]; const period = Math.max(150, Math.min(220, W/6));
+    for(let x=0;x<=W;x++){ const p=(x%period)/period; pts.push(H*0.62 - beat(p)*H*0.5); }
+  }
+  const col = () => getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#ff5a6c";
+  function draw(head){
+    ctx.clearRect(0,0,W,H);
+    // faint grid like monitor paper
+    ctx.strokeStyle="rgba(147,163,186,.12)"; ctx.lineWidth=1;
+    for(let x=0;x<W;x+=24){ctx.beginPath();ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H);ctx.stroke();}
+    for(let y=0;y<H;y+=24){ctx.beginPath();ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5);ctx.stroke();}
+    ctx.strokeStyle=col(); ctx.lineWidth=2; ctx.lineJoin="round";
+    const gap=40;
+    ctx.beginPath(); let pen=false;
+    for(let x=0;x<pts.length;x++){
+      const inGap = head!=null && x>head && x<head+gap;
+      if(inGap){pen=false;continue;}
+      if(!pen){ctx.moveTo(x,pts[x]);pen=true;} else ctx.lineTo(x,pts[x]);
+    }
+    ctx.stroke();
+    if(head!=null && head<pts.length){
+      ctx.fillStyle=col(); ctx.beginPath(); ctx.arc(head,pts[head],3.5,0,Math.PI*2); ctx.fill();
+    }
+  }
+  build(); draw(reduce?null:0);
+  window.addEventListener("resize",()=>{build();draw(reduce?null:0);});
+  if(!reduce){
+    let head=0,last=performance.now();
+    (function loop(t){
+      head=(head+(t-last)*0.14)%(W||1); last=t; draw(Math.floor(head));
+      requestAnimationFrame(loop);
+    })(last);
+  }
+
+  /* ---------- Likert chart ---------- */
+  // counts per item: [SA, A, N, D, SD], n = 12
+  const VIDEO = [
+    [1,"Team showed professionalism and ethical conduct","The healthcare team demonstrated professionalism and ethical conduct.",[11,1,0,0,0]],
+    [2,"Communication with ambulance crew was clear","Communication with ambulance crew was clear and pertinent.",[8,3,1,0,0]],
+    [3,"Ethics maintained under pressure","Ethical principles (e.g., consent, dignity) were maintained under pressure.",[7,4,1,0,0]],
+    [4,"Multidisciplinary teamwork was effective","Multidisciplinary teamwork was evident and effective.",[9,3,0,0,0]],
+    [5,"Cardiac signs and treatment portrayed accurately","The signs, symptoms, and treatment for cardiac emergencies were portrayed accurately.",[3,7,2,0,0]],
+    [6,"Improved my understanding of emergency care","The video improved my understanding of emergency cardiovascular care.",[4,6,1,1,0]],
+    [7,"Clinical reasoning clearly demonstrated","Clinical reasoning and decision-making were clearly demonstrated.",[4,8,0,0,0]],
+    [8,"Linked theory to real-life scenarios","The video helped me connect theoretical knowledge to real-life scenarios.",[4,7,1,0,0]],
+    [9,"Prompted reflection on my future role","It encouraged reflection on my future role as a clinician.",[6,4,2,0,0]],
+    [10,"Would recommend similar clips","I would recommend similar video clips for medical education.",[6,3,3,0,0]],
+    [11,"Relevant in both UK and Japan","The approach to emergency care was relevant across both UK/Japanese contexts.",[5,3,3,1,0]],
+    [12,"Prompted reflection on cultural differences","The video prompted reflection on cultural differences in healthcare delivery.",[6,3,1,2,0]],
+    [13,"Emotionally engaging","The clinical vignette was emotionally engaging.",[3,6,3,0,0]]
+  ];
+  const PBL = [
+    [14,"Improved understanding of CHD","The scenario improved my understanding of coronary heart disease (CHD) and its associated risk factors.",[5,5,2,0,0]],
+    [15,"Social determinants of health","The scenario helped me appreciate the role of social determinants in health outcomes.",[4,4,2,2,0]],
+    [16,"Diagnosis and management of angina","I was able to identify appropriate diagnostic and management steps for patients presenting with angina.",[2,6,2,2,0]],
+    [17,"Ethics of students in procedures","I developed a clearer understanding of the ethical considerations involved in involving students in clinical procedures.",[3,8,0,0,1]],
+    [18,"Understanding of qualitative research","The discussion of different research methodologies enhanced my understanding of qualitative research in clinical settings.",[3,5,2,1,1]],
+    [19,"Relevant to my stage of training","The case was relevant to my current stage of medical training.",[5,5,2,0,0]],
+    [20,"Stimulated interest in cardiology","The scenario stimulated my interest in cardiovascular medicine.",[6,2,3,1,0]],
+    [21,"Interactions felt realistic","The interactions between the doctor, patients, and student felt realistic and reflective of real-world practice.",[6,5,1,0,0]],
+    [22,"Clinical + psychosocial made it engaging","The inclusion of both clinical and psychosocial aspects made the case more engaging.",[8,3,1,0,0]],
+    [23,"Good balance of detail and context","The balance between clinical detail and patient context was appropriate.",[6,5,1,0,0]],
+    [24,"Respected cultural differences","The scenario respected cultural differences in patient attitudes towards health, illness, and treatment.",[3,8,1,0,0]],
+    [25,"Inclusive, free of stereotypes","I felt that the scenario was inclusive and did not present any stereotypes or biases.",[4,7,1,0,0]],
+    [26,"Characters presented sensitively","The characters' names, backgrounds, and experiences were presented in a culturally sensitive manner.",[5,5,2,0,0]],
+    [27,"Applicable in Japan and UK","The scenario could be applied effectively in both Japanese and UK cultural contexts.",[4,3,3,2,0]],
+    [28,"Comfortable discussing sensitive topics","I was comfortable discussing culturally sensitive topics within my group during the PBL session.",[4,7,1,0,0]]
+  ];
+  const LABELS = {SD:"Strongly disagree",D:"Disagree",N:"Neutral",A:"Agree",SA:"Strongly agree"};
+  const VARS = {SD:"--sd",D:"--d",N:"--n",A:"--a",SA:"--sa"};
+  const area = document.getElementById("chart-area");
+  const tip = document.getElementById("tip");
+  const LMAX = 4, RMAX = 12, SPAN = LMAX + RMAX, CENTER = LMAX/SPAN*100, pct = v => (v/SPAN)*100;
+
+  function showTip(e, html){
+    tip.innerHTML = html; tip.style.opacity = 1;
+    const x = Math.min(e.clientX+14, window.innerWidth - tip.offsetWidth - 8);
+    const y = Math.max(8, e.clientY - tip.offsetHeight - 12);
+    tip.style.left = x+"px"; tip.style.top = y+"px";
+  }
+  function hideTip(){ tip.style.opacity = 0; }
+
+  function renderBars(items){
+    let html = `<div class="axis-head"><span></span><div class="dir"><span style="width:25%;text-align:right;padding-right:8px">← disagree</span><span style="padding-left:8px">agree →</span></div></div><div class="rows">`;
+    items.forEach(([no,short,full,c])=>{
+      const [SA,A,N,D,SD] = c;
+      // left side, outer to inner: SD, D, N/2 ; right side: N/2, A, SA
+      let x = CENTER - pct(SD + D + N/2);
+      const segs = [["SD",SD],["D",D],["N",N],["A",A],["SA",SA]].filter(s=>s[1]>0);
+      let segHtml = "";
+      segs.forEach(([k,v],i)=>{
+        const w = pct(v);
+        const cls = (i===0?" end-l":"") + (i===segs.length-1?" end-r":"");
+        const dark = (k==="D"||k==="N"||k==="A");
+        segHtml += `<div class="seg${cls}" data-k="${k}" data-v="${v}" style="left:${x}%;width:${w}%;background:var(${VARS[k]});color:var(${dark?"--seg-text-dark":"--seg-text-light"})">${w>=6?v:""}</div>`;
+        x += w;
+      });
+      html += `<div class="row" data-full="${full.replace(/"/g,"&quot;")}" data-no="${no}" data-agree="${SA+A}">
+        <div class="lab"><b>${String(no).padStart(2,"0")}</b>${short}</div>
+        <div class="track">${segHtml}</div></div>`;
+    });
+    html += `</div><div class="grid-ticks"><span></span><div class="ticks">
+      <span style="left:0%">4</span><span style="left:${CENTER}%">0</span><span style="left:${CENTER+pct(6)}%">6</span><span style="left:100%">12</span></div></div>`;
+    area.innerHTML = html;
+    area.querySelectorAll(".row").forEach(row=>{
+      row.querySelectorAll(".seg").forEach(seg=>{
+        seg.addEventListener("mousemove",e=>{
+          showTip(e, `<b>Item ${row.dataset.no}</b> · ${row.dataset.full}<br>${LABELS[seg.dataset.k]}: <b>${seg.dataset.v} of 12</b><br>Agree or strongly agree: ${row.dataset.agree} of 12`);
+        });
+        seg.addEventListener("mouseleave",hideTip);
+      });
+    });
+  }
+  function renderTable(){
+    const rows = VIDEO.concat(PBL).map(([no,,full,c])=>`<tr><td class="c">${no}</td><td>${full}</td>${c.map(v=>`<td class="c">${v||"–"}</td>`).join("")}</tr>`).join("");
+    area.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th class="c">No</th><th>Item</th><th class="c">SA</th><th class="c">A</th><th class="c">N</th><th class="c">D</th><th class="c">SD</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+  }
+  const btns = {video:document.getElementById("btn-video"),pbl:document.getElementById("btn-pbl"),table:document.getElementById("btn-table")};
+  const title = document.getElementById("chart-title");
+  function setView(v){
+    Object.entries(btns).forEach(([k,b])=>b.setAttribute("aria-pressed", String(k===v)));
+    if(v==="video"){title.textContent="How students rated the video";renderBars(VIDEO);}
+    else if(v==="pbl"){title.textContent="How students rated the PBL case scenario";renderBars(PBL);}
+    else {title.textContent="All 28 items, response counts";renderTable();}
+    try{localStorage.setItem("ge-view",v);}catch(e){}
+  }
+  btns.video.onclick=()=>setView("video");
+  btns.pbl.onclick=()=>setView("pbl");
+  btns.table.onclick=()=>setView("table");
+  let start="video"; try{start=localStorage.getItem("ge-view")||"video";}catch(e){}
+  setView(start);
+
+  /* ---------- copy buttons ---------- */
+  document.querySelectorAll(".copy").forEach(b=>{
+    b.addEventListener("click", async ()=>{
+      try{ await navigator.clipboard.writeText(b.dataset.copy); b.textContent="Copied"; }
+      catch(e){ b.textContent="Select the address to copy"; }
+      setTimeout(()=>b.textContent="Copy",1800);
+    });
+  });
+})();
+</script>
+</body>
+</html>
