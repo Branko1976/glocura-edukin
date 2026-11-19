@@ -249,6 +249,32 @@ blockquote footer{margin-top:12px;font:400 .8rem var(--mono);color:var(--muted)}
 @media (max-width:860px){.p2{grid-template-columns:1fr}}
 @media (max-width:480px){.network li{grid-template-columns:1fr auto}.network .cty{display:none}}
 
+/* exchange */
+.xch{display:grid;grid-template-columns:1fr 1.35fr;gap:32px;align-items:start}
+.route{background:var(--hero-bg);color:var(--hero-ink);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:22px}
+.route .k{font:500 .75rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--hero-muted)}
+.legs{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px}
+.legs .c{font-family:var(--display);font-weight:750;font-variation-settings:"wdth" 78;font-size:2rem;line-height:1}
+.legs .c small{display:block;font:400 .75rem var(--mono);color:var(--hero-muted);margin-top:6px;letter-spacing:.04em}
+.legs svg{width:100%;height:28px;overflow:visible}
+.route .facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hero-line);border:1px solid var(--hero-line);border-radius:10px;overflow:hidden}
+.route .facts div{background:var(--hero-bg);padding:14px}
+.route .facts b{display:block;font-family:var(--display);font-weight:700;font-size:1.6rem;font-variation-settings:"wdth" 78;font-variant-numeric:tabular-nums}
+.route .facts span{font-size:.82rem;color:var(--hero-muted)}
+.route .who{font-size:.92rem;color:var(--hero-muted);margin:0;border-top:1px solid var(--hero-line);padding-top:14px}
+.route .who strong{color:var(--hero-ink);font-weight:500}
+.stages{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px;position:relative}
+.stages li{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;display:grid;grid-template-columns:120px 1fr;gap:18px}
+.stages li.main{border-left:4px solid var(--accent)}
+.stages time{font:500 .82rem var(--mono);color:var(--muted);padding-top:3px}
+.stages .lbl{font:500 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.stages h3{font-size:1.2rem;font-weight:650;font-variation-settings:"wdth" 90;margin:4px 0 6px}
+.stages p{margin:0;color:var(--muted);font-size:.95rem}
+.xch-next{margin-top:18px;font-size:.93rem;color:var(--muted)}
+.xch-next b{color:var(--ink);font-weight:600}
+@media (max-width:860px){.xch{grid-template-columns:1fr}}
+@media (max-width:520px){.stages li{grid-template-columns:1fr;gap:6px}}
+
 /* timeline */
 .tl{list-style:none;margin:0;padding:0;position:relative}
 .tl::before{content:"";position:absolute;left:150px;top:6px;bottom:6px;width:2px;background:var(--line)}
@@ -313,6 +339,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       <a href="#model" data-i18n="nav.model">Session model</a>
       <a href="#pilot" data-i18n="nav.pilot">Pilot</a>
       <a href="#network" data-i18n="nav.network">Network</a>
+      <a href="#exchange" data-i18n="nav.xch">Exchange</a>
       <a href="#timeline" data-i18n="nav.timeline">Timeline</a>
       <a href="#team" data-i18n="nav.team">Team</a>
       <button type="button" class="lang" id="lang-btn" aria-label="Switch language">日本語</button>
@@ -553,10 +580,50 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
   </div>
 </section>
 
+<section class="block" id="exchange">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-tag" data-i18n="xch.tag">05 · Student exchange</div>
+      <div>
+        <h2 data-i18n="xch.h2">Lancaster to Nagoya: the first student visit</h2>
+        <p data-i18n="xch.p">The partnership also moves people. In July 2026, Lancaster medical student Nael spent two weeks at Nagoya University, combining an international summer program with a research placement in the Department of International Medical Education.</p>
+      </div>
+    </div>
+    <div class="xch">
+      <aside class="route">
+        <div class="k" data-i18n="xch.k">First Lancaster student in Nagoya</div>
+        <div class="legs">
+          <div class="c">LAN<small>UTC+1</small></div>
+          <svg viewBox="0 0 200 28" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M4 22 Q100 -10 196 22" fill="none" stroke="var(--hero-muted)" stroke-width="1.5" stroke-dasharray="4 5" vector-effect="non-scaling-stroke"/>
+            <circle cx="196" cy="22" r="4" fill="var(--accent)"/>
+          </svg>
+          <div class="c">NGO<small>UTC+9</small></div>
+        </div>
+        <div class="facts">
+          <div><b>6–20</b><span data-i18n="xch.f1">July 2026</span></div>
+          <div><b>2</b><span data-i18n="xch.f2">weeks in Nagoya</span></div>
+          <div><b>2</b><span data-i18n="xch.f3">stages: summer program, then research</span></div>
+          <div><b>1</b><span data-i18n="xch.f4">research project on AI in teaching</span></div>
+        </div>
+        <p class="who" data-i18n="xch.who"><strong>Nael</strong> · Medical student, Lancaster Medical School</p>
+      </aside>
+      <div>
+        <ol class="stages">
+          <li><time data-i18n="xs1.t">Jan 2026</time><div><div class="lbl" data-i18n="xs1.l">How it started</div><h3 data-i18n="xs1.h">First meeting in Lancaster</h3><p data-i18n="xs1.p">Nael met the Nagoya team during their visit to Lancaster Medical School, where the placement was first planned.</p></div></li>
+          <li class="main"><time data-i18n="xs2.t">6–14 Jul 2026</time><div><div class="lbl" data-i18n="xs2.l">Stage 1</div><h3 data-i18n="xs2.h">Nagoya University international summer program</h3><p data-i18n="xs2.p"><i>Bridging Community Medicine and Innovations in Japan</i>: community-based medicine for an ageing society, academic courses and cultural visits, learning alongside medical students from the United States and Japan.</p></div></li>
+          <li class="main"><time data-i18n="xs3.t">14–20 Jul 2026</time><div><div class="lbl" data-i18n="xs3.l">Stage 2</div><h3 data-i18n="xs3.h">Research placement</h3><p data-i18n="xs3.p">Joined the Department of International Medical Education to develop an AI chatbot for history taking, built on two of Nagoya's PBL scenarios for use in undergraduate teaching.</p></div></li>
+        </ol>
+        <p class="xch-next" data-i18n="xch.next"><b>Next:</b> the partners are working toward two-way exchange, with Nagoya students visiting Lancaster.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="block" id="timeline">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag" data-i18n="tl.tag">05 · Timeline</div>
+      <div class="sec-tag" data-i18n="tl.tag">06 · Timeline</div>
       <div><h2 data-i18n="tl.h2">Milestones so far</h2></div>
     </div>
     <ol class="tl">
@@ -565,10 +632,11 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       <li data-i18n="tl3"><time>Jan 2026</time><div><h3>Nagoya team visits Lancaster</h3><p>Planning for an expanded network, partners in India, and student exchange between the two schools.</p></div></li>
       <li data-i18n="tl4"><time>Mar 2026</time><div><h3>Pilot manuscript submitted</h3><p>Submitted to <i>BMC Medical Education</i>.</p></div></li>
       <li data-i18n="tl5"><time>Jun 2026</time><div><h3>Phase 2 invitations</h3><p>Partner institutions are invited to the next phase, covering multiple body systems.</p></div></li>
+      <li class="key" data-i18n="tl6x"><time>Jul 2026</time><div><h3>First Lancaster student in Nagoya</h3><p>Two weeks at Nagoya University: the international summer program, then a research placement on an AI history-taking chatbot.</p></div></li>
       <li data-i18n="tl6"><time>Aug 2026</time><div><h3>First all-partner planning meeting</h3><p>Representatives from the UK, Japan, India, the UAE and Türkiye plan the joint sessions.</p></div></li>
       <li data-i18n="tl7"><time>Sep 2026</time><div><h3>Minor revision</h3><p>Reviewers recognise the work's contribution to cross-institutional medical education; the revised manuscript is resubmitted.</p></div></li>
       <li class="key" data-i18n="tl8"><time>9 Oct 2026</time><div><h3>Phase 2 joint session</h3><p>Hepatobiliary module: liver, pancreas and gallbladder, 08:00 UK / 16:00 Japan.</p></div></li>
-      <li class="next" data-i18n="tl9"><time>Next</time><div><h3>More systems, more partners</h3><p>Further body-system modules, student exchange between Lancaster and Nagoya, and new partner schools.</p></div></li>
+      <li class="next" data-i18n="tl9"><time>Next</time><div><h3>More systems, more partners</h3><p>Further body-system modules, two-way student exchange between Lancaster and Nagoya, and new partner schools.</p></div></li>
     </ol>
   </div>
 </section>
@@ -576,7 +644,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="team">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag" data-i18n="team.tag">06 · Team</div>
+      <div class="sec-tag" data-i18n="team.tag">07 · Team</div>
       <div><h2 data-i18n="team.h2">Project leaders</h2></div>
     </div>
     <div class="team">
@@ -606,7 +674,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="join" style="border-bottom:0">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag" data-i18n="join.tag">07 · Join</div>
+      <div class="sec-tag" data-i18n="join.tag">08 · Join</div>
       <div>
         <h2 data-i18n="join.h2">Bring your students into the next session</h2>
         <p data-i18n="join.p">We welcome medical schools that can join a one-hour live session at 08:00 UK time and run the shared PBL case locally.</p>
@@ -652,7 +720,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 (function(){
   /* ================= translations ================= */
   const JA = {
-    "nav.about":"概要","nav.model":"セッションの流れ","nav.pilot":"パイロット研究","nav.network":"ネットワーク","nav.timeline":"沿革","nav.team":"チーム","nav.join":"参加する",
+    "nav.about":"概要","nav.model":"セッションの流れ","nav.pilot":"パイロット研究","nav.network":"ネットワーク","nav.xch":"学生交流","nav.timeline":"沿革","nav.team":"チーム","nav.join":"参加する",
     "hero.eyebrow":"グローバル医学教育パートナーシップ",
     "hero.lede":"異なる国の医学生が同じ臨床ビデオを視聴し、ともに臨床推論を深めます。",
     "hero.sub":"ランカスター大学医学部と名古屋大学大学院医学系研究科が主導する、ビデオ誘発型の問題基盤型学習（PBL）の国際共同プロジェクトです。現在、欧州とアジアの医学部へとネットワークを広げています。",
@@ -706,7 +774,8 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     "n3":"バフチェシェヒル大学<small>医学部 解剖学講座（イスタンブール）</small>","n4":"アジュマーン大学",
     "n5":"全インド医科大学 リシケシュ校（AIIMS）<small>解剖学講座</small>","n6":"ジャイプル国立大学<small>解剖学講座</small>","n7":"クリシュナ・ヴィシュワ・ヴィディヤピート<small>解剖学講座（カラド）</small>",
     "c.uk":"英国","c.jp":"日本","c.tr":"トルコ","c.ae":"アラブ首長国連邦","c.in":"インド",
-    "tl.tag":"05 · 沿革","tl.h2":"これまでの歩み",
+    "tl.tag":"06 · 沿革",
+    "tl6x":"<time>2026年7月</time><div><h3>ランカスターの学生が初めて名古屋へ</h3><p>名古屋大学に2週間滞在。国際サマープログラムに参加した後、AIによる医療面接チャットボットの研究実習に取り組む。</p></div>","tl.h2":"これまでの歩み",
     "tl1":"<time>2025年9月</time><div><h3>パイロット合同セッション</h3><p>ランカスターと名古屋の学生12名が心停止の場面を視聴して振り返りを書き、Zoomの合同ブレイクアウトルームで議論。その後、循環器のPBLセッションを実施。</p></div>",
     "tl2":"<time>2025年10月</time><div><h3>分析と執筆</h3><p>両拠点の質問票と振り返りのデータを分析。</p></div>",
     "tl3":"<time>2026年1月</time><div><h3>名古屋チームがランカスターを訪問</h3><p>ネットワークの拡大、インドの提携候補校、両校間の学生交流について協議。</p></div>",
@@ -715,8 +784,16 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     "tl6":"<time>2026年8月</time><div><h3>初の全提携校会議</h3><p>英国、日本、インド、UAE、トルコの代表が合同セッションを計画。</p></div>",
     "tl7":"<time>2026年9月</time><div><h3>マイナーリビジョン</h3><p>機関横断型医学教育への貢献が査読者に評価され、改訂稿を再投稿。</p></div>",
     "tl8":"<time>2026年10月9日</time><div><h3>第2期 合同セッション</h3><p>肝胆膵モジュール（肝臓・膵臓・胆嚢）。英国時間 8:00／日本時間 16:00。</p></div>",
-    "tl9":"<time>今後</time><div><h3>さらなる器官系と提携校へ</h3><p>新たな器官系モジュール、ランカスター・名古屋間の学生交流、新規提携校の参加。</p></div>",
-    "team.tag":"06 · チーム","team.h2":"プロジェクトリーダー",
+    "tl9":"<time>今後</time><div><h3>さらなる器官系と提携校へ</h3><p>新たな器官系モジュール、ランカスター・名古屋間の双方向の学生交流、新規提携校の参加。</p></div>",
+    "team.tag":"07 · チーム",
+    "xch.tag":"05 · 学生交流","xch.h2":"ランカスターから名古屋へ：初の学生派遣",
+    "xch.p":"本パートナーシップは人の交流にもつながっています。2026年7月、ランカスター大学医学部の学生 Nael さんが名古屋大学に2週間滞在し、国際サマープログラムへの参加と、国際医学教育学での研究実習を行いました。",
+    "xch.k":"ランカスターから初の学生派遣","xch.f1":"2026年7月","xch.f2":"週間の名古屋滞在","xch.f3":"ステージ（プログラム＋研究実習）","xch.f4":"件の教育AI研究プロジェクト",
+    "xch.who":"<strong>Nael</strong> · ランカスター大学医学部 医学生",
+    "xs1.t":"2026年1月","xs1.l":"きっかけ","xs1.h":"ランカスターでの初対面","xs1.p":"名古屋チームのランカスター大学訪問時に面談し、受け入れ計画が始まりました。",
+    "xs2.t":"2026年7月6日–14日","xs2.l":"ステージ1","xs2.h":"名古屋大学 国際サマープログラム","xs2.p":"「Bridging Community Medicine and Innovations in Japan」：高齢化社会における地域医療、専門講義、文化体験を、米国と日本の医学生とともに学びました。",
+    "xs3.t":"2026年7月14日–20日","xs3.l":"ステージ2","xs3.h":"研究実習","xs3.p":"国際医学教育学に参加し、名古屋大学のPBLシナリオ2本をもとに、学部教育で活用する医療面接用AIチャットボットの開発に取り組みました。",
+    "xch.next":"<b>今後：</b>名古屋の学生がランカスターを訪問する、双方向の交流を目指しています。","team.h2":"プロジェクトリーダー",
     "kk.r":"共同代表 · 英国","ba.r":"共同代表 · 日本",
     "kk.p":"MD, PhD。ランカスター大学医学部 准教授、臨床解剖学ラーニングセンター長。PBLシナリオの作成と提携ネットワークの調整を担当。",
     "kk.l":"ランカスター大学（英国）",
@@ -724,7 +801,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     "ib.p":"MD, PhD。名古屋大学大学院医学系研究科 国際医学教育学 准教授。<i>International Medical Education</i> 誌 アソシエイトエディター。",
     "jp.l":"名古屋大学（日本）",
     "team.also":"パイロット研究 共同研究者：Ahsan Chaudhary（ランカスター大学医学部）",
-    "join.tag":"07 · 参加","join.h2":"次回のセッションに、貴校の学生も参加しませんか",
+    "join.tag":"08 · 参加","join.h2":"次回のセッションに、貴校の学生も参加しませんか",
     "join.p":"英国時間8:00からの1時間のライブセッションに参加し、共通のPBL症例を自校で実施できる医学部を歓迎します。",
     "a1":"研究協力者（窓口担当者）の氏名・役職・メールアドレス","a2":"倫理審査申請のための機関名と所在地（正式住所）",
     "a3":"ライブセッションに参加する学生グループと、自校でのPBLチュートリアルの枠","a4":"セッション後の質問票を学生に配布するご協力",
