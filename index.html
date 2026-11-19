@@ -4,9 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glocura Edukin Project</title>
+<meta name="description" content="Glocura Edukin: an international video-triggered PBL collaboration led by Lancaster Medical School and Nagoya University Graduate School of Medicine.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,300..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 /* Layout idea: a dark "monitor" hero with a live ECG sweep and a strip of partner clocks,
    then a light clinical-paper body with a ruled left margin like a case file. */
@@ -25,8 +26,8 @@
   /* Likert diverging scale (validated) */
   --sd:#b3302f; --d:#ee8a84; --n:#c9c8c4; --a:#6a9fe6; --sa:#1f5fb8;
   --seg-text-dark:#0b1626; --seg-text-light:#ffffff;
-  --display:"Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
-  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --display:"Bricolage Grotesque", "IBM Plex Sans JP", "Arial Narrow", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "IBM Plex Sans JP", "Hiragino Sans", "Segoe UI", system-ui, sans-serif;
   --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
   --step--1:0.875rem; --step-0:1.0625rem; --step-1:1.3rem; --step-2:1.75rem; --step-3:2.5rem; --step-4:clamp(2.6rem, 7vw, 5.6rem);
   color-scheme: light;
@@ -69,6 +70,17 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
 .nav a:hover{color:var(--hero-ink);background:var(--hero-line)}
 .nav a.cta{color:#fff;background:var(--accent)}
 @media (max-width:820px){.nav a:not(.cta){display:none}}
+.nav{align-items:center}
+.lang{font:500 var(--step--1)/1 var(--body);color:var(--hero-ink);background:transparent;border:1px solid var(--hero-line);border-radius:6px;padding:7px 10px;cursor:pointer;margin-left:4px}
+.lang:hover{border-color:var(--hero-muted)}
+/* Japanese typesetting */
+html[lang="ja"] body{font-family:"IBM Plex Sans JP","IBM Plex Sans","Hiragino Sans","Yu Gothic",system-ui,sans-serif;line-height:1.8;line-break:strict;word-break:normal;overflow-wrap:anywhere}
+html[lang="ja"] h2,html[lang="ja"] h3,html[lang="ja"] .lede,html[lang="ja"] blockquote{letter-spacing:0;line-height:1.35;font-feature-settings:"palt"}
+html[lang="ja"] .sec-head h2{font-size:clamp(1.7rem,3.4vw,2.3rem);font-weight:700}
+html[lang="ja"] .lede{font-size:1.2rem}
+html[lang="ja"] blockquote{font-size:1.15rem}
+html[lang="ja"] .eyebrow,html[lang="ja"] .sec-tag,html[lang="ja"] .step .where,html[lang="ja"] .pillar .k,html[lang="ja"] .module .k,html[lang="ja"] .person .role{letter-spacing:.04em}
+html[lang="ja"] .network li.lead .nm::after{content:"共同代表"}
 
 /* ---------- hero ---------- */
 .hero{background:var(--hero-bg);color:var(--hero-ink);position:relative;overflow:hidden}
@@ -93,7 +105,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
 .clocks-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1px solid var(--hero-line);padding-top:18px;margin-top:8px}
 .clocks-head p{margin:0;color:var(--hero-muted);font-size:var(--step--1)}
 .clocks-head strong{color:var(--hero-ink);font-weight:500}
-.clocks{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:var(--hero-line);border:1px solid var(--hero-line);border-radius:12px;overflow:hidden;margin-top:14px}
+.clocks{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--hero-line);border:1px solid var(--hero-line);border-radius:12px;overflow:hidden;margin-top:14px}
 .clock{background:var(--hero-bg);padding:14px 14px 16px;display:flex;flex-direction:column;gap:2px;min-width:0}
 .clock .city{font-family:var(--display);font-weight:600;font-variation-settings:"wdth" 85;font-size:1.05rem}
 .clock .inst{font-size:.75rem;color:var(--hero-muted);line-height:1.3;min-height:2.6em}
@@ -102,8 +114,7 @@ h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.05}
 .clock .sess em{font-style:normal;color:var(--accent)}
 .clock .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px;vertical-align:middle;background:var(--hero-line)}
 .clock .dot.day{background:#f6c344}
-@media (max-width:1000px){.clocks{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:560px){.clocks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:420px){.clocks{grid-template-columns:1fr 1fr}}
 
 /* ---------- sections ---------- */
 section.block{padding:clamp(56px,8vw,96px) 0;border-bottom:1px solid var(--line)}
@@ -289,7 +300,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 
 <header class="bar">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Glocura Edukin, back to top">
+    <a class="brand" href="#top" aria-label="Glocura Edukin">
       <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
         <circle cx="15" cy="15" r="13" fill="none" stroke="currentColor" stroke-width="1.6"/>
         <ellipse cx="15" cy="15" rx="6" ry="13" fill="none" stroke="currentColor" stroke-width="1" opacity=".55"/>
@@ -298,13 +309,14 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       Glocura Edukin
     </a>
     <nav class="nav" aria-label="Sections">
-      <a href="#about">About</a>
-      <a href="#model">Session model</a>
-      <a href="#pilot">Pilot</a>
-      <a href="#network">Network</a>
-      <a href="#timeline">Timeline</a>
-      <a href="#team">Team</a>
-      <a class="cta" href="#join">Join</a>
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#model" data-i18n="nav.model">Session model</a>
+      <a href="#pilot" data-i18n="nav.pilot">Pilot</a>
+      <a href="#network" data-i18n="nav.network">Network</a>
+      <a href="#timeline" data-i18n="nav.timeline">Timeline</a>
+      <a href="#team" data-i18n="nav.team">Team</a>
+      <button type="button" class="lang" id="lang-btn" aria-label="Switch language">日本語</button>
+      <a class="cta" href="#join" data-i18n="nav.join">Join</a>
     </nav>
   </div>
 </header>
@@ -313,15 +325,15 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
   <div class="wrap">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow"><b>●</b> Global medical education partnership</div>
+        <div class="eyebrow"><b>●</b> <span data-i18n="hero.eyebrow">Global medical education partnership</span></div>
         <h1 class="wordmark">Glocura<span>Edukin</span></h1>
       </div>
       <div>
-        <p class="lede">Medical students in different countries watch the same clinical video, then reason through it together.</p>
-        <p class="lede-sub">A video-triggered problem-based learning (PBL) collaboration led by Lancaster Medical School and Nagoya University Graduate School of Medicine, now growing into a network across Europe, Asia and Africa.</p>
+        <p class="lede" data-i18n="hero.lede">Medical students in different countries watch the same clinical video, then reason through it together.</p>
+        <p class="lede-sub" data-i18n="hero.sub">A video-triggered problem-based learning (PBL) collaboration led by Lancaster Medical School and Nagoya University Graduate School of Medicine, now growing into a network of medical schools across Europe and Asia.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#join">Bring your institution in</a>
-          <a class="btn ghost" href="#pilot">See the pilot results</a>
+          <a class="btn primary" href="#join" data-i18n="hero.btn1">Bring your institution in</a>
+          <a class="btn ghost" href="#pilot" data-i18n="hero.btn2">See the pilot results</a>
         </div>
       </div>
     </div>
@@ -329,7 +341,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     <canvas id="ecg" aria-hidden="true"></canvas>
 
     <div class="clocks-head">
-      <p><strong>One live hour, many classrooms.</strong> Local time now, and when the 9 October 2026 joint session started.</p>
+      <p data-i18n="hero.clocks"><strong>One live hour, many classrooms.</strong> Local time now, and when the 9 October 2026 joint session started.</p>
       <p class="mono" id="utc-now"></p>
     </div>
     <div class="clocks" id="clocks"></div>
@@ -341,29 +353,29 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="about">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">01 · About</div>
+      <div class="sec-tag" data-i18n="about.tag">01 · About</div>
       <div>
-        <h2>Learning medicine with peers from another health system</h2>
-        <p>Glocura Edukin brings students from partner medical schools into one shared session. They meet the same patient on screen, write down what they noticed, and compare their reasoning in small mixed groups before each school runs the case in its own PBL tutorials.</p>
+        <h2 data-i18n="about.h2">Learning medicine with peers from another health system</h2>
+        <p data-i18n="about.p">Glocura Edukin brings students from partner medical schools into one shared session. They meet the same patient on screen, write down what they noticed, and compare their reasoning in small mixed groups before each school runs the case in its own PBL tutorials.</p>
       </div>
     </div>
     <div class="indent">
-      <p class="about-text">The project rests on <em>sociocultural learning theory</em>: knowledge is built through social interaction, and talking with peers trained in a different setting exposes the assumptions each group brings to a clinical encounter.</p>
+      <p class="about-text" data-i18n="about.theory">The project rests on <em>sociocultural learning theory</em>: knowledge is built through social interaction, and talking with peers trained in a different setting exposes the assumptions each group brings to a clinical encounter.</p>
       <div class="pillars">
         <article class="pillar">
-          <div class="k">Scaffold</div>
-          <h3>A short clinical video</h3>
-          <p>A real-time clinical scene gives every student the same starting point, regardless of language, curriculum or year.</p>
+          <div class="k" data-i18n="p1.k">Scaffold</div>
+          <h3 data-i18n="p1.h">A short clinical video</h3>
+          <p data-i18n="p1.p">A real-time clinical scene gives every student the same starting point, regardless of language, curriculum or year.</p>
         </article>
         <article class="pillar">
-          <div class="k">Hook</div>
-          <h3>A shared PBL case</h3>
-          <p>A scenario written by Lancaster Medical School is delivered at every partner site, so the discussion carries into each local tutorial.</p>
+          <div class="k" data-i18n="p2.k">Hook</div>
+          <h3 data-i18n="p2.h">A shared PBL case</h3>
+          <p data-i18n="p2.p">A scenario written by Lancaster Medical School is delivered at every partner site, so the discussion carries into each local tutorial.</p>
         </article>
         <article class="pillar">
-          <div class="k">Dialogue</div>
-          <h3>Cross-institutional groups</h3>
-          <p>Breakout rooms mix students from different universities to compare impressions, priorities and ways of working.</p>
+          <div class="k" data-i18n="p3.k">Dialogue</div>
+          <h3 data-i18n="p3.h">Cross-institutional groups</h3>
+          <p data-i18n="p3.p">Breakout rooms mix students from different universities to compare impressions, priorities and ways of working.</p>
         </article>
       </div>
     </div>
@@ -373,133 +385,133 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="model">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">02 · Session model</div>
+      <div class="sec-tag" data-i18n="model.tag">02 · Session model</div>
       <div>
-        <h2>How a Glocura Edukin session runs</h2>
-        <p>Red steps happen live with every partner online together. Grey steps run locally at each school.</p>
+        <h2 data-i18n="model.h2">How a Glocura Edukin session runs</h2>
+        <p data-i18n="model.p">Red steps happen live with every partner online together. Grey steps run locally at each school.</p>
       </div>
     </div>
     <div class="flow">
       <div class="step">
         <div class="rail"></div>
-        <div class="where">Before · each student</div>
-        <h3>Watch the video</h3>
-        <p>Students receive the clinical clip in advance, so the live hour is spent on discussion rather than streaming.</p>
-        <span class="t">≈ 10 minutes</span>
+        <div class="where" data-i18n="s1.w">Before · each student</div>
+        <h3 data-i18n="s1.h">Watch the video</h3>
+        <p data-i18n="s1.p">Students receive the clinical clip in advance, so the live hour is spent on discussion rather than streaming.</p>
+        <span class="t" data-i18n="s1.t">≈ 10 minutes</span>
       </div>
       <div class="step joint">
         <div class="rail"></div>
-        <div class="where">Live · joint</div>
-        <h3>Reflect</h3>
-        <p>Each student writes a brief reflective summary: impressions, emotional reactions and learning points.</p>
-        <span class="t">08:00 UK</span>
+        <div class="where" data-i18n="s2.w">Live · joint</div>
+        <h3 data-i18n="s2.h">Reflect</h3>
+        <p data-i18n="s2.p">Each student writes a brief reflective summary: impressions, emotional reactions and learning points.</p>
+        <span class="t" data-i18n="s2.t">08:00 UK</span>
       </div>
       <div class="step joint">
         <div class="rail"></div>
-        <div class="where">Live · joint</div>
-        <h3>Discuss across sites</h3>
-        <p>Small cross-cultural breakout groups compare what students saw and how they would act.</p>
-        <span class="t">until 09:00 UK</span>
+        <div class="where" data-i18n="s2.w">Live · joint</div>
+        <h3 data-i18n="s3.h">Discuss across sites</h3>
+        <p data-i18n="s3.p">Small cross-cultural breakout groups compare what students saw and how they would act.</p>
+        <span class="t" data-i18n="s3.t">until 09:00 UK</span>
       </div>
       <div class="step">
         <div class="rail"></div>
-        <div class="where">Local · each school</div>
-        <h3>Work the PBL case</h3>
-        <p>Every institution runs its own PBL tutorial on the same shared scenario.</p>
-        <span class="t">usual tutorial slot</span>
+        <div class="where" data-i18n="s4.w">Local · each school</div>
+        <h3 data-i18n="s4.h">Work the PBL case</h3>
+        <p data-i18n="s4.p">Every institution runs its own PBL tutorial on the same shared scenario.</p>
+        <span class="t" data-i18n="s4.t">usual tutorial slot</span>
       </div>
       <div class="step">
         <div class="rail"></div>
-        <div class="where">After · each student</div>
-        <h3>Evaluate</h3>
-        <p>A Likert-scale questionnaire on the video and the PBL scenario, plus open comments.</p>
-        <span class="t">online form</span>
+        <div class="where" data-i18n="s5.w">After · each student</div>
+        <h3 data-i18n="s5.h">Evaluate</h3>
+        <p data-i18n="s5.p">A Likert-scale questionnaire on the video and the PBL scenario, plus open comments.</p>
+        <span class="t" data-i18n="s5.t">online form</span>
       </div>
     </div>
-    <p class="note">The live hour sits at 08:00 UK time because it lands inside the working day for every partner, from 09:00 in Zimbabwe to 16:00 in Nagoya (October dates).</p>
+    <p class="note" data-i18n="model.note">The live hour sits at 08:00 UK time because it lands inside the working day for every partner, from 10:00 in Istanbul to 16:00 in Nagoya (October dates).</p>
   </div>
 </section>
 
 <section class="block" id="pilot">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">03 · Pilot 2025</div>
+      <div class="sec-tag" data-i18n="pilot.tag">03 · Pilot 2025</div>
       <div>
-        <h2>Lancaster × Nagoya: a cardiac arrest, discussed in two countries</h2>
-        <p>In September 2025, students from both schools watched a hospital cardiac arrest scene from the British medical drama <i>Casualty</i>, wrote reflections, met in joint breakout rooms over Zoom, and then worked a Lancaster cardiovascular PBL case.</p>
+        <h2 data-i18n="pilot.h2">Lancaster × Nagoya: a cardiac arrest, discussed in two countries</h2>
+        <p data-i18n="pilot.p">In September 2025, students from both schools watched a hospital cardiac arrest scene from the British medical drama <i>Casualty</i>, wrote reflections, met in joint breakout rooms over Zoom, and then worked a Lancaster cardiovascular PBL case.</p>
       </div>
     </div>
 
     <div class="tiles">
-      <div class="tile"><div class="num">12</div><div class="lbl">medical students, six from each university</div></div>
-      <div class="tile"><div class="num">20.7<small> yrs</small></div><div class="lbl">mean age, with equal numbers of men and women</div></div>
-      <div class="tile"><div class="num">28</div><div class="lbl">Likert items on the video and the PBL scenario</div></div>
-      <div class="tile"><div class="num">12<small>/12</small></div><div class="lbl">agreed clinical reasoning and teamwork were clearly shown</div></div>
+      <div class="tile"><div class="num">12</div><div class="lbl" data-i18n="t1">medical students, six from each university</div></div>
+      <div class="tile"><div class="num" data-i18n="t2n">20.7<small> yrs</small></div><div class="lbl" data-i18n="t2">mean age, with equal numbers of men and women</div></div>
+      <div class="tile"><div class="num">28</div><div class="lbl" data-i18n="t3">Likert items on the video and the PBL scenario</div></div>
+      <div class="tile"><div class="num">12<small>/12</small></div><div class="lbl" data-i18n="t4">agreed clinical reasoning and teamwork were clearly shown</div></div>
     </div>
 
     <div class="chart-card">
       <div class="chart-top">
         <div>
           <h3 id="chart-title">How students rated the video</h3>
-          <p>Number of students (of 12) giving each response. Bars split at the neutral point: agreement to the right, disagreement to the left.</p>
+          <p data-i18n="chart.desc">Number of students (of 12) giving each response. Bars split at the neutral point: agreement to the right, disagreement to the left.</p>
         </div>
-        <div class="seg-ctl" role="group" aria-label="Choose question set">
-          <button type="button" id="btn-video" aria-pressed="true">Video · items 1–13</button>
-          <button type="button" id="btn-pbl" aria-pressed="false">PBL case · 14–28</button>
-          <button type="button" id="btn-table" aria-pressed="false">Table</button>
+        <div class="seg-ctl" role="group" aria-label="Question set">
+          <button type="button" id="btn-video" aria-pressed="true" data-i18n="chart.b1">Video · items 1–13</button>
+          <button type="button" id="btn-pbl" aria-pressed="false" data-i18n="chart.b2">PBL case · 14–28</button>
+          <button type="button" id="btn-table" aria-pressed="false" data-i18n="chart.b3">Table</button>
         </div>
       </div>
       <div class="legend" aria-hidden="true">
-        <span><i style="background:var(--sd)"></i>Strongly disagree</span>
-        <span><i style="background:var(--d)"></i>Disagree</span>
-        <span><i style="background:var(--n)"></i>Neutral</span>
-        <span><i style="background:var(--a)"></i>Agree</span>
-        <span><i style="background:var(--sa)"></i>Strongly agree</span>
+        <span><i style="background:var(--sd)"></i><span data-i18n="lk.SD">Strongly disagree</span></span>
+        <span><i style="background:var(--d)"></i><span data-i18n="lk.D">Disagree</span></span>
+        <span><i style="background:var(--n)"></i><span data-i18n="lk.N">Neutral</span></span>
+        <span><i style="background:var(--a)"></i><span data-i18n="lk.A">Agree</span></span>
+        <span><i style="background:var(--sa)"></i><span data-i18n="lk.SA">Strongly agree</span></span>
       </div>
       <div id="chart-area"></div>
-      <p class="chart-foot">Source: pilot questionnaire, Lancaster University and Nagoya University, September 2025 (n = 12). Descriptive counts only; no inferential testing.</p>
+      <p class="chart-foot" data-i18n="chart.foot">Source: pilot questionnaire, Lancaster University and Nagoya University, September 2025 (n = 12). Descriptive counts only; no inferential testing.</p>
     </div>
 
     <div class="findings">
       <div class="panel">
-        <h3>Seven themes in the written reflections</h3>
+        <h3 data-i18n="th.h">Seven themes in the written reflections</h3>
         <ol class="themes">
-          <li><div>Engagement and realism <span>· seeing the scene made the topic stick</span></div></li>
-          <li><div>Teamwork and communication <span>· clear roles and open sharing</span></div></li>
-          <li><div>Clinical and ethical decision-making <span>· when to stop, and who decides</span></div></li>
-          <li><div>Academic and clinical depth <span>· some wanted more detail</span></div></li>
-          <li><div>Educational effectiveness <span>· easier to focus than text</span></div></li>
-          <li><div>Structural and technical barriers <span>· time, audio, pacing</span></div></li>
-          <li><div>Site-dependent learning <span>· value of the other school's view</span></div></li>
+          <li><div data-i18n="th1">Engagement and realism <span>· seeing the scene made the topic stick</span></div></li>
+          <li><div data-i18n="th2">Teamwork and communication <span>· clear roles and open sharing</span></div></li>
+          <li><div data-i18n="th3">Clinical and ethical decision-making <span>· when to stop, and who decides</span></div></li>
+          <li><div data-i18n="th4">Academic and clinical depth <span>· some wanted more detail</span></div></li>
+          <li><div data-i18n="th5">Educational effectiveness <span>· easier to focus than text</span></div></li>
+          <li><div data-i18n="th6">Structural and technical barriers <span>· time, audio, pacing</span></div></li>
+          <li><div data-i18n="th7">Site-dependent learning <span>· value of the other school's view</span></div></li>
         </ol>
       </div>
       <div class="panel">
-        <h3>Where the two schools put the emphasis</h3>
+        <h3 data-i18n="em.h">Where the two schools put the emphasis</h3>
         <div class="sites">
           <div class="site">
-            <h4>Lancaster</h4>
-            <p>Reflections more often discussed clinical realism, medical depth and professional identity.</p>
+            <h4 data-i18n="em.l">Lancaster</h4>
+            <p data-i18n="em.lp">Reflections more often discussed clinical realism, medical depth and professional identity.</p>
           </div>
           <div class="site ngy">
-            <h4>Nagoya</h4>
-            <p>Reflections more often highlighted teamwork, communication and collective responsibility.</p>
+            <h4 data-i18n="em.n">Nagoya</h4>
+            <p data-i18n="em.np">Reflections more often highlighted teamwork, communication and collective responsibility.</p>
           </div>
         </div>
-        <p class="caveat">These are exploratory, site-level patterns from a small sample. Setting, stage of training and familiarity with a UK video may all contribute, so they are not read as national cultural traits.</p>
+        <p class="caveat" data-i18n="em.cav">These are exploratory, site-level patterns from a small sample. Setting, stage of training and familiarity with a UK video may all contribute, so they are not read as national cultural traits.</p>
       </div>
     </div>
 
     <div class="quotes">
-      <blockquote>Recognising when not to do things is as important as recognising when to do them.<footer>Pilot participant</footer></blockquote>
-      <blockquote>The England student gave me new ideas… motivating.<footer>Pilot participant</footer></blockquote>
-      <blockquote>I really enjoyed discussing the differences between UK and Japan.<footer>Pilot participant</footer></blockquote>
+      <blockquote><span data-i18n="q1">Recognising when not to do things is as important as recognising when to do them.</span><footer data-i18n="qf">Pilot participant</footer></blockquote>
+      <blockquote><span data-i18n="q2">The England student gave me new ideas… motivating.</span><footer data-i18n="qf">Pilot participant</footer></blockquote>
+      <blockquote><span data-i18n="q3">I really enjoyed discussing the differences between UK and Japan.</span><footer data-i18n="qf">Pilot participant</footer></blockquote>
     </div>
 
     <div class="pub">
-      <span class="badge">Manuscript</span>
+      <span class="badge" data-i18n="pub.b">Manuscript</span>
       <div>
         <p class="t">Evaluating Video-Enhanced Cardiovascular Teaching in PBL Settings: Insights from UK and Japanese Medical Students. A pilot study.</p>
-        <p class="m">Chaudhary A, Bustos Villalobos I, Aleksic B, Katti K. Revised manuscript submitted to <i>BMC Medical Education</i>, 2026.</p>
+        <p class="m"><span>Chaudhary A, Bustos Villalobos I, Aleksic B, Katti K.</span> <span data-i18n="pub.m">Revised manuscript submitted to <i>BMC Medical Education</i>, 2026.</span></p>
       </div>
     </div>
   </div>
@@ -508,18 +520,18 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="network">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">04 · Phase 2 · 2026</div>
+      <div class="sec-tag" data-i18n="net.tag">04 · Phase 2 · 2026</div>
       <div>
-        <h2>From two schools to an international network</h2>
-        <p>Building on the pilot, the project now runs joint sessions across several body systems with partner institutions on three continents.</p>
+        <h2 data-i18n="net.h2">From two schools to an international network</h2>
+        <p data-i18n="net.p">Building on the pilot, the project now runs joint sessions across several body systems with partner institutions in Europe and Asia.</p>
       </div>
     </div>
     <div class="p2">
       <div class="module">
-        <div class="k">Current module</div>
-        <h3>Hepato&shy;biliary <span>system</span></h3>
-        <div class="organs"><span>Liver</span><span>Pancreas</span><span>Gallbladder</span></div>
-        <dl>
+        <div class="k" data-i18n="mod.k">Current module</div>
+        <h3 data-i18n="mod.h">Hepato&shy;biliary <span>system</span></h3>
+        <div class="organs" data-i18n="mod.org"><span>Liver</span><span>Pancreas</span><span>Gallbladder</span></div>
+        <dl data-i18n="mod.dl">
           <dt>Joint session</dt><dd>Friday 9 October 2026, 08:00–09:00 UK</dd>
           <dt>Scenario</dt><dd>PBL case developed by Lancaster University</dd>
           <dt>Video</dt><dd>Short clinical clip sent to students in advance</dd>
@@ -528,14 +540,13 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       </div>
       <div>
         <ul class="network" aria-label="Partner institutions">
-          <li class="lead"><div class="nm">Lancaster Medical School<small>Lancaster University</small></div><span class="cty">United Kingdom</span><span class="off">UTC+0/+1</span></li>
-          <li class="lead"><div class="nm">Graduate School of Medicine<small>Nagoya University</small></div><span class="cty">Japan</span><span class="off">UTC+9</span></li>
-          <li><div class="nm">AIIMS Rishikesh<small>Department of Anatomy</small></div><span class="cty">India</span><span class="off">UTC+5:30</span></li>
-          <li><div class="nm">Jaipur National University<small>Department of Anatomy</small></div><span class="cty">India</span><span class="off">UTC+5:30</span></li>
-          <li><div class="nm">Krishna Vishwa Vidyapeeth<small>Department of Anatomy, Karad</small></div><span class="cty">India</span><span class="off">UTC+5:30</span></li>
-          <li><div class="nm">Midlands State University</div><span class="cty">Zimbabwe</span><span class="off">UTC+2</span></li>
-          <li><div class="nm">Ajman University</div><span class="cty">United Arab Emirates</span><span class="off">UTC+4</span></li>
-          <li><div class="nm">Partner faculty, Istanbul</div><span class="cty">Türkiye</span><span class="off">UTC+3</span></li>
+          <li class="lead"><div class="nm" data-i18n="n1">Lancaster Medical School<small>Lancaster University</small></div><span class="cty" data-i18n="c.uk">United Kingdom</span><span class="off">UTC+0/+1</span></li>
+          <li class="lead"><div class="nm" data-i18n="n2">Graduate School of Medicine<small>Nagoya University</small></div><span class="cty" data-i18n="c.jp">Japan</span><span class="off">UTC+9</span></li>
+          <li><div class="nm" data-i18n="n3">Bahçeşehir University<small>Faculty of Medicine, Department of Anatomy, Istanbul</small></div><span class="cty" data-i18n="c.tr">Türkiye</span><span class="off">UTC+3</span></li>
+          <li><div class="nm" data-i18n="n4">Ajman University</div><span class="cty" data-i18n="c.ae">United Arab Emirates</span><span class="off">UTC+4</span></li>
+          <li><div class="nm" data-i18n="n5">AIIMS Rishikesh<small>Department of Anatomy</small></div><span class="cty" data-i18n="c.in">India</span><span class="off">UTC+5:30</span></li>
+          <li><div class="nm" data-i18n="n6">Jaipur National University<small>Department of Anatomy</small></div><span class="cty" data-i18n="c.in">India</span><span class="off">UTC+5:30</span></li>
+          <li><div class="nm" data-i18n="n7">Krishna Vishwa Vidyapeeth<small>Department of Anatomy, Karad</small></div><span class="cty" data-i18n="c.in">India</span><span class="off">UTC+5:30</span></li>
         </ul>
       </div>
     </div>
@@ -545,19 +556,19 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="timeline">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">05 · Timeline</div>
-      <div><h2>Milestones so far</h2></div>
+      <div class="sec-tag" data-i18n="tl.tag">05 · Timeline</div>
+      <div><h2 data-i18n="tl.h2">Milestones so far</h2></div>
     </div>
     <ol class="tl">
-      <li class="key"><time>Sep 2025</time><div><h3>Pilot joint session</h3><p>Twelve Lancaster and Nagoya students watch a cardiac arrest scene, reflect, and meet in joint Zoom breakout rooms, followed by a cardiovascular PBL session.</p></div></li>
-      <li><time>Oct 2025</time><div><h3>Analysis and writing</h3><p>Questionnaire and reflection data are analysed across both sites.</p></div></li>
-      <li><time>Jan 2026</time><div><h3>Nagoya team visits Lancaster</h3><p>Planning for an expanded network, partners in India, and student exchange between the two schools.</p></div></li>
-      <li><time>Mar 2026</time><div><h3>Pilot manuscript submitted</h3><p>Submitted to <i>BMC Medical Education</i>.</p></div></li>
-      <li><time>Jun 2026</time><div><h3>Phase 2 invitations</h3><p>Partner institutions are invited to the next phase, covering multiple body systems.</p></div></li>
-      <li><time>Aug 2026</time><div><h3>First all-partner planning meeting</h3><p>Representatives from the UK, Japan, India, Zimbabwe, the UAE and Türkiye plan the joint sessions.</p></div></li>
-      <li><time>Sep 2026</time><div><h3>Minor revision</h3><p>Reviewers recognise the work's contribution to cross-institutional medical education; the revised manuscript is resubmitted.</p></div></li>
-      <li class="key"><time>9 Oct 2026</time><div><h3>Phase 2 joint session</h3><p>Hepatobiliary module: liver, pancreas and gallbladder, 08:00 UK / 16:00 Japan.</p></div></li>
-      <li class="next"><time>Next</time><div><h3>More systems, more partners</h3><p>Further body-system modules, student exchange between Lancaster and Nagoya, and new partner schools.</p></div></li>
+      <li class="key" data-i18n="tl1"><time>Sep 2025</time><div><h3>Pilot joint session</h3><p>Twelve Lancaster and Nagoya students watch a cardiac arrest scene, reflect, and meet in joint Zoom breakout rooms, followed by a cardiovascular PBL session.</p></div></li>
+      <li data-i18n="tl2"><time>Oct 2025</time><div><h3>Analysis and writing</h3><p>Questionnaire and reflection data are analysed across both sites.</p></div></li>
+      <li data-i18n="tl3"><time>Jan 2026</time><div><h3>Nagoya team visits Lancaster</h3><p>Planning for an expanded network, partners in India, and student exchange between the two schools.</p></div></li>
+      <li data-i18n="tl4"><time>Mar 2026</time><div><h3>Pilot manuscript submitted</h3><p>Submitted to <i>BMC Medical Education</i>.</p></div></li>
+      <li data-i18n="tl5"><time>Jun 2026</time><div><h3>Phase 2 invitations</h3><p>Partner institutions are invited to the next phase, covering multiple body systems.</p></div></li>
+      <li data-i18n="tl6"><time>Aug 2026</time><div><h3>First all-partner planning meeting</h3><p>Representatives from the UK, Japan, India, the UAE and Türkiye plan the joint sessions.</p></div></li>
+      <li data-i18n="tl7"><time>Sep 2026</time><div><h3>Minor revision</h3><p>Reviewers recognise the work's contribution to cross-institutional medical education; the revised manuscript is resubmitted.</p></div></li>
+      <li class="key" data-i18n="tl8"><time>9 Oct 2026</time><div><h3>Phase 2 joint session</h3><p>Hepatobiliary module: liver, pancreas and gallbladder, 08:00 UK / 16:00 Japan.</p></div></li>
+      <li class="next" data-i18n="tl9"><time>Next</time><div><h3>More systems, more partners</h3><p>Further body-system modules, student exchange between Lancaster and Nagoya, and new partner schools.</p></div></li>
     </ol>
   </div>
 </section>
@@ -565,61 +576,61 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 <section class="block" id="team">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">06 · Team</div>
-      <div><h2>Project leaders</h2></div>
+      <div class="sec-tag" data-i18n="team.tag">06 · Team</div>
+      <div><h2 data-i18n="team.h2">Project leaders</h2></div>
     </div>
     <div class="team">
       <article class="person">
         <div class="avatar" style="background:#1f4fd8">KK</div>
-        <div><div class="role">Project co-lead · UK</div><h3>Karuna Katti</h3></div>
-        <p>MD, PhD. Associate Professor and Director of the Clinical Anatomy Learning Centre at Lancaster Medical School. Leads the PBL scenarios and coordinates the partner network.</p>
-        <div class="loc">Lancaster University, United Kingdom</div>
+        <div><div class="role" data-i18n="kk.r">Project co-lead · UK</div><h3>Karuna Katti</h3></div>
+        <p data-i18n="kk.p">MD, PhD. Associate Professor and Director of the Clinical Anatomy Learning Centre at Lancaster Medical School. Leads the PBL scenarios and coordinates the partner network.</p>
+        <div class="loc" data-i18n="kk.l">Lancaster University, United Kingdom</div>
       </article>
       <article class="person">
         <div class="avatar" style="background:#d7263d">BA</div>
-        <div><div class="role">Project co-lead · Japan</div><h3>Branko Aleksic</h3></div>
-        <p>MD, PhD. Associate Professor in the Department of International Medical Education, Nagoya University Graduate School of Medicine, and Editor-in-Chief of <i>International Medical Education</i>.</p>
-        <div class="loc">Nagoya University, Japan</div>
+        <div><div class="role" data-i18n="ba.r">Project co-lead · Japan</div><h3>Branko Aleksic</h3></div>
+        <p data-i18n="ba.p">MD, PhD. Associate Professor in the Department of International Medical Education, Nagoya University Graduate School of Medicine, and Editor-in-Chief of <i>International Medical Education</i>.</p>
+        <div class="loc" data-i18n="jp.l">Nagoya University, Japan</div>
       </article>
       <article class="person">
         <div class="avatar" style="background:#0f7a6b">IB</div>
-        <div><div class="role">Project co-lead · Japan</div><h3>Itzel Bustos Villalobos</h3></div>
-        <p>MD, PhD. Associate Professor, Department of International Medical Education, Nagoya University Graduate School of Medicine.</p>
-        <div class="loc">Nagoya University, Japan</div>
+        <div><div class="role" data-i18n="ba.r">Project co-lead · Japan</div><h3>Itzel Bustos Villalobos</h3></div>
+        <p data-i18n="ib.p">MD, PhD. Associate Professor in the Department of International Medical Education, Nagoya University Graduate School of Medicine, and Associate Editor of <i>International Medical Education</i>.</p>
+        <div class="loc" data-i18n="jp.l">Nagoya University, Japan</div>
       </article>
     </div>
-    <p class="also">Pilot study co-investigator: Ahsan Chaudhary, Lancaster Medical School.</p>
+    <p class="also" data-i18n="team.also">Pilot study co-investigator: Ahsan Chaudhary, Lancaster Medical School.</p>
   </div>
 </section>
 
 <section class="block" id="join" style="border-bottom:0">
   <div class="wrap">
     <div class="sec-head">
-      <div class="sec-tag">07 · Join</div>
+      <div class="sec-tag" data-i18n="join.tag">07 · Join</div>
       <div>
-        <h2>Bring your students into the next session</h2>
-        <p>We welcome medical schools that can join a one-hour live session at 08:00 UK time and run the shared PBL case locally.</p>
+        <h2 data-i18n="join.h2">Bring your students into the next session</h2>
+        <p data-i18n="join.p">We welcome medical schools that can join a one-hour live session at 08:00 UK time and run the shared PBL case locally.</p>
       </div>
     </div>
     <div class="join">
       <div>
         <ul class="ask">
-          <li><b>01</b><div>Name, title and email of your designated research collaborator.</div></li>
-          <li><b>02</b><div>Your institution's name and full postal address, for the ethics application.</div></li>
-          <li><b>03</b><div>A group of students for the live session and a local PBL tutorial slot.</div></li>
-          <li><b>04</b><div>Help sharing the post-session questionnaire with your students.</div></li>
+          <li><b>01</b><div data-i18n="a1">Name, title and email of your designated research collaborator.</div></li>
+          <li><b>02</b><div data-i18n="a2">Your institution's name and full postal address, for the ethics application.</div></li>
+          <li><b>03</b><div data-i18n="a3">A group of students for the live session and a local PBL tutorial slot.</div></li>
+          <li><b>04</b><div data-i18n="a4">Help sharing the post-session questionnaire with your students.</div></li>
         </ul>
       </div>
       <aside class="contact">
-        <h3>Get in touch</h3>
-        <p>Write to either project leader and we will send the session pack and dates.</p>
+        <h3 data-i18n="ct.h">Get in touch</h3>
+        <p data-i18n="ct.p">Write to either project leader and we will send the session pack and dates.</p>
         <div class="mail">
-          <div><div class="who">Karuna Katti · Lancaster</div><div class="addr">k.katti@lancaster.ac.uk</div></div>
-          <button class="copy" type="button" data-copy="k.katti@lancaster.ac.uk">Copy</button>
+          <div><div class="who" data-i18n="ct.k">Karuna Katti · Lancaster</div><div class="addr">k.katti@lancaster.ac.uk</div></div>
+          <button class="copy" type="button" data-copy="k.katti@lancaster.ac.uk" data-i18n="ct.copy">Copy</button>
         </div>
         <div class="mail">
-          <div><div class="who">Branko Aleksic · Nagoya</div><div class="addr">branko@med.nagoya-u.ac.jp</div></div>
-          <button class="copy" type="button" data-copy="branko@med.nagoya-u.ac.jp">Copy</button>
+          <div><div class="who" data-i18n="ct.b">Branko Aleksic · Nagoya</div><div class="addr">branko@med.nagoya-u.ac.jp</div></div>
+          <button class="copy" type="button" data-copy="branko@med.nagoya-u.ac.jp" data-i18n="ct.copy">Copy</button>
         </div>
       </aside>
     </div>
@@ -630,8 +641,8 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 
 <footer class="site-foot">
   <div class="wrap">
-    <span>Glocura Edukin Project · Lancaster University × Nagoya University</span>
-    <span class="mono">Global medical education partnership · 2026</span>
+    <span data-i18n="ft1">Glocura Edukin Project · Lancaster University × Nagoya University</span>
+    <span class="mono" data-i18n="ft2">Global medical education partnership · 2026</span>
   </div>
 </footer>
 
@@ -639,44 +650,146 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
 
 <script>
 (function(){
-  /* ---------- partner clocks ---------- */
+  /* ================= translations ================= */
+  const JA = {
+    "nav.about":"概要","nav.model":"セッションの流れ","nav.pilot":"パイロット研究","nav.network":"ネットワーク","nav.timeline":"沿革","nav.team":"チーム","nav.join":"参加する",
+    "hero.eyebrow":"グローバル医学教育パートナーシップ",
+    "hero.lede":"異なる国の医学生が同じ臨床ビデオを視聴し、ともに臨床推論を深めます。",
+    "hero.sub":"ランカスター大学医学部と名古屋大学大学院医学系研究科が主導する、ビデオ誘発型の問題基盤型学習（PBL）の国際共同プロジェクトです。現在、欧州とアジアの医学部へとネットワークを広げています。",
+    "hero.btn1":"参加を検討する","hero.btn2":"パイロット研究の結果",
+    "hero.clocks":"<strong>同じ1時間を、複数の教室で。</strong>各地の現在時刻と、2026年10月9日の合同セッション開始時刻。",
+    "about.tag":"01 · 概要",
+    "about.h2":"異なる医療制度で学ぶ仲間とともに、医学を学ぶ",
+    "about.p":"Glocura Edukinは、提携医学部の学生を一つのセッションに集めます。学生は画面上で同じ患者に出会い、気づいたことを書き留め、少人数の混成グループで臨床推論を比べ合います。その後、各校が自校のPBLチュートリアルで同じ症例に取り組みます。",
+    "about.theory":"本プロジェクトは<em>社会文化的学習理論</em>に基づいています。知識は社会的相互作用を通じて構築されるものであり、異なる環境で学ぶ仲間との対話は、各グループが臨床場面に持ち込む前提を浮き彫りにします。",
+    "p1.k":"足場","p1.h":"短い臨床ビデオ","p1.p":"リアルタイムの臨床場面が、言語やカリキュラム、学年に関係なく、全員に共通の出発点を与えます。",
+    "p2.k":"フック","p2.h":"共通のPBL症例","p2.p":"ランカスター大学医学部が作成したシナリオを全提携校で実施するため、議論が各校のチュートリアルへとつながります。",
+    "p3.k":"対話","p3.h":"機関横断グループ","p3.p":"ブレイクアウトルームで異なる大学の学生が混ざり、印象や優先順位、働き方の違いを比べ合います。",
+    "model.tag":"02 · セッションの流れ","model.h2":"Glocura Edukinセッションの進め方",
+    "model.p":"赤のステップは全提携校がオンラインで同時に参加するライブ部分、グレーのステップは各校で個別に行う部分です。",
+    "s1.w":"事前 · 各学生","s1.h":"ビデオを視聴","s1.p":"臨床クリップを事前に受け取るため、ライブの時間を議論に充てられます。","s1.t":"約10分",
+    "s2.w":"ライブ · 合同","s2.h":"振り返り","s2.p":"各学生が、印象・感情的な反応・学びのポイントを短い振り返りとしてまとめます。","s2.t":"英国時間 8:00",
+    "s3.h":"機関を越えて議論","s3.p":"少人数の異文化ブレイクアウトグループで、何を見て、どう行動するかを比べ合います。","s3.t":"英国時間 9:00まで",
+    "s4.w":"各校 · 個別","s4.h":"PBL症例に取り組む","s4.p":"各機関が同じ共通シナリオを用いて、自校のPBLチュートリアルを行います。","s4.t":"通常のチュートリアル枠",
+    "s5.w":"事後 · 各学生","s5.h":"評価","s5.p":"ビデオとPBLシナリオに関するリッカート尺度の質問票と自由記述。","s5.t":"オンラインフォーム",
+    "model.note":"ライブの1時間を英国時間8:00に設定しているのは、イスタンブールの10:00から名古屋の16:00まで、すべての提携校の勤務時間内に収まるためです（10月の場合）。",
+    "pilot.tag":"03 · パイロット研究 2025","pilot.h2":"ランカスター × 名古屋：一つの心停止場面を、二つの国で議論",
+    "pilot.p":"2025年9月、両校の学生が英国の医療ドラマ『Casualty』の院内心停止の場面を視聴して振り返りを書き、Zoomの合同ブレイクアウトルームで議論した後、ランカスター大学の循環器PBL症例に取り組みました。",
+    "t1":"名の医学生（各大学6名）","t2n":"20.7<small> 歳</small>","t2":"平均年齢（男女同数）","t3":"ビデオとPBLシナリオに関するリッカート項目","t4":"臨床推論とチームワークが明確に示されていたと回答",
+    "chart.desc":"各回答を選んだ学生数（12名中）。中立点を境に、右側が同意、左側が不同意です。",
+    "chart.b1":"ビデオ · 項目1–13","chart.b2":"PBL症例 · 14–28","chart.b3":"表",
+    "lk.SD":"全くそう思わない","lk.D":"そう思わない","lk.N":"どちらでもない","lk.A":"そう思う","lk.SA":"強くそう思う",
+    "chart.foot":"出典：パイロット質問票（ランカスター大学・名古屋大学、2025年9月、n = 12）。記述統計のみで、推測統計による検定は行っていません。",
+    "th.h":"振り返りの記述から見えた7つのテーマ",
+    "th1":"関与とリアリティ <span>· 場面を見ることで内容が定着</span>",
+    "th2":"チームワークとコミュニケーション <span>· 明確な役割と率直な情報共有</span>",
+    "th3":"臨床的・倫理的意思決定 <span>· いつ中止するか、誰が決めるか</span>",
+    "th4":"学術的・臨床的な深さ <span>· より詳しい説明を求める声も</span>",
+    "th5":"教育効果 <span>· 文章より集中しやすい</span>",
+    "th6":"構造的・技術的な課題 <span>· 時間、音声、テンポ</span>",
+    "th7":"拠点による学びの違い <span>· 相手校の視点から得るもの</span>",
+    "em.h":"両校の学生が重視した点","em.l":"ランカスター","em.n":"名古屋",
+    "em.lp":"臨床的なリアリティ、医学的な深さ、職業的アイデンティティへの言及が多く見られました。",
+    "em.np":"チームワーク、コミュニケーション、集団としての責任への言及が多く見られました。",
+    "em.cav":"これらは小規模サンプルから得られた探索的な拠点レベルの傾向です。教育環境、学習段階、英国のビデオへの馴染みなどが影響している可能性があり、国民性の違いとして解釈するものではありません。",
+    "q1":"してはいけないことを見極めるのは、すべきことを見極めるのと同じくらい大切だ。",
+    "q2":"イギリスの学生から新しいアイデアをもらえた…刺激になった。",
+    "q3":"英国と日本の違いについて話し合うのがとても楽しかった。",
+    "qf":"パイロット参加者（英語原文より翻訳）",
+    "pub.b":"論文","pub.m":"<i>BMC Medical Education</i> に改訂稿を投稿（2026年）。",
+    "net.tag":"04 · 第2期 · 2026","net.h2":"2校から国際ネットワークへ",
+    "net.p":"パイロット研究を踏まえ、現在は欧州とアジアの提携機関とともに、複数の器官系にわたる合同セッションを実施しています。",
+    "mod.k":"現在のモジュール","mod.h":"肝胆膵<span>領域</span>",
+    "mod.org":"<span>肝臓</span><span>膵臓</span><span>胆嚢</span>",
+    "mod.dl":"<dt>合同セッション</dt><dd>2026年10月9日（金）英国時間 8:00–9:00</dd><dt>シナリオ</dt><dd>ランカスター大学が作成したPBL症例</dd><dt>ビデオ</dt><dd>事前に学生へ送付する短い臨床クリップ</dd><dt>評価</dt><dd>ビデオとPBL体験に関する29項目のリッカート質問票</dd>",
+    "n1":"ランカスター大学医学部<small>ランカスター大学</small>","n2":"大学院医学系研究科<small>名古屋大学</small>",
+    "n3":"バフチェシェヒル大学<small>医学部 解剖学講座（イスタンブール）</small>","n4":"アジュマーン大学",
+    "n5":"全インド医科大学 リシケシュ校（AIIMS）<small>解剖学講座</small>","n6":"ジャイプル国立大学<small>解剖学講座</small>","n7":"クリシュナ・ヴィシュワ・ヴィディヤピート<small>解剖学講座（カラド）</small>",
+    "c.uk":"英国","c.jp":"日本","c.tr":"トルコ","c.ae":"アラブ首長国連邦","c.in":"インド",
+    "tl.tag":"05 · 沿革","tl.h2":"これまでの歩み",
+    "tl1":"<time>2025年9月</time><div><h3>パイロット合同セッション</h3><p>ランカスターと名古屋の学生12名が心停止の場面を視聴して振り返りを書き、Zoomの合同ブレイクアウトルームで議論。その後、循環器のPBLセッションを実施。</p></div>",
+    "tl2":"<time>2025年10月</time><div><h3>分析と執筆</h3><p>両拠点の質問票と振り返りのデータを分析。</p></div>",
+    "tl3":"<time>2026年1月</time><div><h3>名古屋チームがランカスターを訪問</h3><p>ネットワークの拡大、インドの提携候補校、両校間の学生交流について協議。</p></div>",
+    "tl4":"<time>2026年3月</time><div><h3>パイロット論文を投稿</h3><p><i>BMC Medical Education</i> に投稿。</p></div>",
+    "tl5":"<time>2026年6月</time><div><h3>第2期への招待</h3><p>複数の器官系を扱う次期プロジェクトへ、提携機関を招待。</p></div>",
+    "tl6":"<time>2026年8月</time><div><h3>初の全提携校会議</h3><p>英国、日本、インド、UAE、トルコの代表が合同セッションを計画。</p></div>",
+    "tl7":"<time>2026年9月</time><div><h3>マイナーリビジョン</h3><p>機関横断型医学教育への貢献が査読者に評価され、改訂稿を再投稿。</p></div>",
+    "tl8":"<time>2026年10月9日</time><div><h3>第2期 合同セッション</h3><p>肝胆膵モジュール（肝臓・膵臓・胆嚢）。英国時間 8:00／日本時間 16:00。</p></div>",
+    "tl9":"<time>今後</time><div><h3>さらなる器官系と提携校へ</h3><p>新たな器官系モジュール、ランカスター・名古屋間の学生交流、新規提携校の参加。</p></div>",
+    "team.tag":"06 · チーム","team.h2":"プロジェクトリーダー",
+    "kk.r":"共同代表 · 英国","ba.r":"共同代表 · 日本",
+    "kk.p":"MD, PhD。ランカスター大学医学部 准教授、臨床解剖学ラーニングセンター長。PBLシナリオの作成と提携ネットワークの調整を担当。",
+    "kk.l":"ランカスター大学（英国）",
+    "ba.p":"MD, PhD。名古屋大学大学院医学系研究科 国際医学教育学 准教授。<i>International Medical Education</i> 誌 編集長（Editor-in-Chief）。",
+    "ib.p":"MD, PhD。名古屋大学大学院医学系研究科 国際医学教育学 准教授。<i>International Medical Education</i> 誌 アソシエイトエディター。",
+    "jp.l":"名古屋大学（日本）",
+    "team.also":"パイロット研究 共同研究者：Ahsan Chaudhary（ランカスター大学医学部）",
+    "join.tag":"07 · 参加","join.h2":"次回のセッションに、貴校の学生も参加しませんか",
+    "join.p":"英国時間8:00からの1時間のライブセッションに参加し、共通のPBL症例を自校で実施できる医学部を歓迎します。",
+    "a1":"研究協力者（窓口担当者）の氏名・役職・メールアドレス","a2":"倫理審査申請のための機関名と所在地（正式住所）",
+    "a3":"ライブセッションに参加する学生グループと、自校でのPBLチュートリアルの枠","a4":"セッション後の質問票を学生に配布するご協力",
+    "ct.h":"お問い合わせ","ct.p":"いずれかのプロジェクトリーダーまでご連絡ください。セッション資料と日程をお送りします。",
+    "ct.k":"Karuna Katti · ランカスター","ct.b":"Branko Aleksic · 名古屋","ct.copy":"コピー",
+    "ft1":"Glocura Edukin プロジェクト · ランカスター大学 × 名古屋大学","ft2":"グローバル医学教育パートナーシップ · 2026"
+  };
+  const UI = {
+    en:{title:{video:"How students rated the video",pbl:"How students rated the PBL case scenario",table:"All 28 items, response counts"},
+        dis:"← disagree",agr:"agree →",item:n=>`Item ${n}`,of:(l,v)=>`${l}: <b>${v} of 12</b>`,agree:v=>`Agree or strongly agree: ${v} of 12`,
+        th:["No","Item","SA","A","N","D","SD"],copied:"Copied",copyFail:"Select the address to copy",
+        utc:"yellow dot = working hours",sess:"9 Oct session",btn:"日本語",work:"Working hours",off:"Outside working hours"},
+    ja:{title:{video:"ビデオに対する学生の評価",pbl:"PBL症例シナリオに対する学生の評価",table:"全28項目の回答数"},
+        dis:"← 不同意",agr:"同意 →",item:n=>`項目${n}`,of:(l,v)=>`${l}：<b>12名中${v}名</b>`,agree:v=>`そう思う＋強くそう思う：12名中${v}名`,
+        th:["番号","項目","強くそう思う","そう思う","どちらでもない","そう思わない","全くそう思わない"],copied:"コピーしました",copyFail:"アドレスを選択してコピーしてください",
+        utc:"黄色の点＝勤務時間内",sess:"10/9 セッション",btn:"English",work:"勤務時間内",off:"勤務時間外"}
+  };
+  const EN = {};
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ const k=el.dataset.i18n; if(!(k in EN)) EN[k]=el.innerHTML; });
+  let LANG = "en";
+
+  /* ================= clocks ================= */
   const SESSION_UTC = Date.UTC(2026, 9, 9, 7, 0); // 9 Oct 2026, 08:00 BST
   const cities = [
-    {city:"Lancaster", inst:"Lancaster Medical School", tz:"Europe/London"},
-    {city:"Nagoya", inst:"Nagoya University", tz:"Asia/Tokyo"},
-    {city:"Istanbul", inst:"Partner faculty", tz:"Europe/Istanbul"},
-    {city:"Ajman", inst:"Ajman University", tz:"Asia/Dubai"},
-    {city:"Zimbabwe", inst:"Midlands State University", tz:"Africa/Harare"},
-    {city:"India", inst:"AIIMS Rishikesh · JNU Jaipur · KVV Karad", tz:"Asia/Kolkata"}
+    {en:["Lancaster","Lancaster Medical School"], ja:["ランカスター","ランカスター大学医学部"], tz:"Europe/London"},
+    {en:["Nagoya","Nagoya University"], ja:["名古屋","名古屋大学"], tz:"Asia/Tokyo"},
+    {en:["Istanbul","Bahçeşehir University"], ja:["イスタンブール","バフチェシェヒル大学"], tz:"Europe/Istanbul"},
+    {en:["Ajman","Ajman University"], ja:["アジュマーン","アジュマーン大学"], tz:"Asia/Dubai"},
+    {en:["India","AIIMS Rishikesh · JNU Jaipur · KVV Karad"], ja:["インド","AIIMSリシケシュ · JNUジャイプル · KVVカラド"], tz:"Asia/Kolkata"}
   ];
   const host = document.getElementById("clocks");
   const fmt = tz => new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:tz});
   cities.forEach(c=>{
     const el = document.createElement("div");
     el.className = "clock";
-    el.innerHTML = `<div class="city">${c.city}</div><div class="inst">${c.inst}</div>
+    el.innerHTML = `<div class="city"></div><div class="inst"></div>
       <div class="now"><span class="dot"></span><span class="t">--:--</span></div>
-      <div class="sess">9 Oct session <em>${fmt(c.tz).format(SESSION_UTC)}</em></div>`;
+      <div class="sess"><span class="sl"></span> <em>${fmt(c.tz).format(SESSION_UTC)}</em></div>`;
     c.el = el; host.appendChild(el);
   });
+  function labelClocks(){
+    cities.forEach(c=>{
+      c.el.querySelector(".city").textContent = c[LANG][0];
+      c.el.querySelector(".inst").textContent = c[LANG][1];
+      c.el.querySelector(".sl").textContent = UI[LANG].sess;
+    });
+  }
   function tick(){
     const now = new Date();
     cities.forEach(c=>{
       const t = fmt(c.tz).format(now);
       c.el.querySelector(".t").textContent = t;
-      const h = parseInt(t.slice(0,2),10);
-      c.el.querySelector(".dot").classList.toggle("day", h>=8 && h<18);
-      c.el.querySelector(".dot").title = (h>=8 && h<18) ? "Working hours" : "Outside working hours";
+      const h = parseInt(t.slice(0,2),10), day = h>=8 && h<18;
+      const d = c.el.querySelector(".dot");
+      d.classList.toggle("day", day); d.title = day ? UI[LANG].work : UI[LANG].off;
     });
-    document.getElementById("utc-now").textContent = "UTC " + fmt("UTC").format(now) + " · yellow dot = working hours";
+    document.getElementById("utc-now").textContent = "UTC " + fmt("UTC").format(now) + " · " + UI[LANG].utc;
   }
-  tick(); setInterval(tick, 15000);
+  labelClocks(); tick(); setInterval(tick, 15000);
 
-  /* ---------- ECG sweep ---------- */
+  /* ================= ECG sweep ================= */
   const cv = document.getElementById("ecg"), ctx = cv.getContext("2d");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let W=0,H=0,pts=[];
-  function beat(x){ // one PQRST complex over unit width 0..1, returns -1..1
+  function beat(x){
     const g=(m,s,a)=>a*Math.exp(-((x-m)**2)/(2*s*s));
     return g(.18,.025,.12)+g(.36,.008,-.12)+g(.40,.010,1)+g(.44,.010,-.28)+g(.66,.045,.25);
   }
@@ -690,72 +803,65 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
   const col = () => getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#ff5a6c";
   function draw(head){
     ctx.clearRect(0,0,W,H);
-    // faint grid like monitor paper
     ctx.strokeStyle="rgba(147,163,186,.12)"; ctx.lineWidth=1;
     for(let x=0;x<W;x+=24){ctx.beginPath();ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H);ctx.stroke();}
     for(let y=0;y<H;y+=24){ctx.beginPath();ctx.moveTo(0,y+.5);ctx.lineTo(W,y+.5);ctx.stroke();}
     ctx.strokeStyle=col(); ctx.lineWidth=2; ctx.lineJoin="round";
-    const gap=40;
-    ctx.beginPath(); let pen=false;
+    const gap=40; ctx.beginPath(); let pen=false;
     for(let x=0;x<pts.length;x++){
-      const inGap = head!=null && x>head && x<head+gap;
-      if(inGap){pen=false;continue;}
+      if(head!=null && x>head && x<head+gap){pen=false;continue;}
       if(!pen){ctx.moveTo(x,pts[x]);pen=true;} else ctx.lineTo(x,pts[x]);
     }
     ctx.stroke();
-    if(head!=null && head<pts.length){
-      ctx.fillStyle=col(); ctx.beginPath(); ctx.arc(head,pts[head],3.5,0,Math.PI*2); ctx.fill();
-    }
+    if(head!=null && head<pts.length){ ctx.fillStyle=col(); ctx.beginPath(); ctx.arc(head,pts[head],3.5,0,Math.PI*2); ctx.fill(); }
   }
   build(); draw(reduce?null:0);
   window.addEventListener("resize",()=>{build();draw(reduce?null:0);});
   if(!reduce){
     let head=0,last=performance.now();
-    (function loop(t){
-      head=(head+(t-last)*0.14)%(W||1); last=t; draw(Math.floor(head));
-      requestAnimationFrame(loop);
-    })(last);
+    (function loop(t){ head=(head+(t-last)*0.14)%(W||1); last=t; draw(Math.floor(head)); requestAnimationFrame(loop); })(last);
   }
 
-  /* ---------- Likert chart ---------- */
-  // counts per item: [SA, A, N, D, SD], n = 12
+  /* ================= Likert chart ================= */
+  // [no, short EN, full EN, short JA, full JA, [SA, A, N, D, SD]]
   const VIDEO = [
-    [1,"Team showed professionalism and ethical conduct","The healthcare team demonstrated professionalism and ethical conduct.",[11,1,0,0,0]],
-    [2,"Communication with ambulance crew was clear","Communication with ambulance crew was clear and pertinent.",[8,3,1,0,0]],
-    [3,"Ethics maintained under pressure","Ethical principles (e.g., consent, dignity) were maintained under pressure.",[7,4,1,0,0]],
-    [4,"Multidisciplinary teamwork was effective","Multidisciplinary teamwork was evident and effective.",[9,3,0,0,0]],
-    [5,"Cardiac signs and treatment portrayed accurately","The signs, symptoms, and treatment for cardiac emergencies were portrayed accurately.",[3,7,2,0,0]],
-    [6,"Improved my understanding of emergency care","The video improved my understanding of emergency cardiovascular care.",[4,6,1,1,0]],
-    [7,"Clinical reasoning clearly demonstrated","Clinical reasoning and decision-making were clearly demonstrated.",[4,8,0,0,0]],
-    [8,"Linked theory to real-life scenarios","The video helped me connect theoretical knowledge to real-life scenarios.",[4,7,1,0,0]],
-    [9,"Prompted reflection on my future role","It encouraged reflection on my future role as a clinician.",[6,4,2,0,0]],
-    [10,"Would recommend similar clips","I would recommend similar video clips for medical education.",[6,3,3,0,0]],
-    [11,"Relevant in both UK and Japan","The approach to emergency care was relevant across both UK/Japanese contexts.",[5,3,3,1,0]],
-    [12,"Prompted reflection on cultural differences","The video prompted reflection on cultural differences in healthcare delivery.",[6,3,1,2,0]],
-    [13,"Emotionally engaging","The clinical vignette was emotionally engaging.",[3,6,3,0,0]]
+    [1,"Team showed professionalism and ethical conduct","The healthcare team demonstrated professionalism and ethical conduct.","医療チームがプロ意識と倫理的行動を示した","医療チームはプロフェッショナリズムと倫理的な行動を示していた。",[11,1,0,0,0]],
+    [2,"Communication with ambulance crew was clear","Communication with ambulance crew was clear and pertinent.","救急隊との連携が明確だった","救急隊とのコミュニケーションは明確かつ適切だった。",[8,3,1,0,0]],
+    [3,"Ethics maintained under pressure","Ethical principles (e.g., consent, dignity) were maintained under pressure.","プレッシャー下でも倫理が守られた","倫理原則（同意、尊厳など）はプレッシャーの中でも守られていた。",[7,4,1,0,0]],
+    [4,"Multidisciplinary teamwork was effective","Multidisciplinary teamwork was evident and effective.","多職種チームワークが効果的だった","多職種によるチームワークが明確で効果的だった。",[9,3,0,0,0]],
+    [5,"Cardiac signs and treatment portrayed accurately","The signs, symptoms, and treatment for cardiac emergencies were portrayed accurately.","心臓救急の症状と治療が正確に描写された","心臓救急の徴候・症状・治療が正確に描かれていた。",[3,7,2,0,0]],
+    [6,"Improved my understanding of emergency care","The video improved my understanding of emergency cardiovascular care.","救急循環器医療の理解が深まった","このビデオで救急循環器医療についての理解が深まった。",[4,6,1,1,0]],
+    [7,"Clinical reasoning clearly demonstrated","Clinical reasoning and decision-making were clearly demonstrated.","臨床推論が明確に示された","臨床推論と意思決定が明確に示されていた。",[4,8,0,0,0]],
+    [8,"Linked theory to real-life scenarios","The video helped me connect theoretical knowledge to real-life scenarios.","理論と実際の場面がつながった","このビデオは理論的知識と実際の場面を結びつけるのに役立った。",[4,7,1,0,0]],
+    [9,"Prompted reflection on my future role","It encouraged reflection on my future role as a clinician.","将来の自分の役割を考えた","臨床医としての将来の自分の役割について考えるきっかけになった。",[6,4,2,0,0]],
+    [10,"Would recommend similar clips","I would recommend similar video clips for medical education.","同様のクリップを推薦したい","医学教育に同様のビデオクリップを推薦したい。",[6,3,3,0,0]],
+    [11,"Relevant in both UK and Japan","The approach to emergency care was relevant across both UK/Japanese contexts.","英国と日本の両方で妥当","救急医療へのアプローチは英国・日本の両方の文脈で妥当だった。",[5,3,3,1,0]],
+    [12,"Prompted reflection on cultural differences","The video prompted reflection on cultural differences in healthcare delivery.","文化的な違いについて考えた","このビデオは医療提供における文化的な違いについて考えるきっかけになった。",[6,3,1,2,0]],
+    [13,"Emotionally engaging","The clinical vignette was emotionally engaging.","感情的に引き込まれた","この臨床ビネットは感情的に引き込まれるものだった。",[3,6,3,0,0]]
   ];
   const PBL = [
-    [14,"Improved understanding of CHD","The scenario improved my understanding of coronary heart disease (CHD) and its associated risk factors.",[5,5,2,0,0]],
-    [15,"Social determinants of health","The scenario helped me appreciate the role of social determinants in health outcomes.",[4,4,2,2,0]],
-    [16,"Diagnosis and management of angina","I was able to identify appropriate diagnostic and management steps for patients presenting with angina.",[2,6,2,2,0]],
-    [17,"Ethics of students in procedures","I developed a clearer understanding of the ethical considerations involved in involving students in clinical procedures.",[3,8,0,0,1]],
-    [18,"Understanding of qualitative research","The discussion of different research methodologies enhanced my understanding of qualitative research in clinical settings.",[3,5,2,1,1]],
-    [19,"Relevant to my stage of training","The case was relevant to my current stage of medical training.",[5,5,2,0,0]],
-    [20,"Stimulated interest in cardiology","The scenario stimulated my interest in cardiovascular medicine.",[6,2,3,1,0]],
-    [21,"Interactions felt realistic","The interactions between the doctor, patients, and student felt realistic and reflective of real-world practice.",[6,5,1,0,0]],
-    [22,"Clinical + psychosocial made it engaging","The inclusion of both clinical and psychosocial aspects made the case more engaging.",[8,3,1,0,0]],
-    [23,"Good balance of detail and context","The balance between clinical detail and patient context was appropriate.",[6,5,1,0,0]],
-    [24,"Respected cultural differences","The scenario respected cultural differences in patient attitudes towards health, illness, and treatment.",[3,8,1,0,0]],
-    [25,"Inclusive, free of stereotypes","I felt that the scenario was inclusive and did not present any stereotypes or biases.",[4,7,1,0,0]],
-    [26,"Characters presented sensitively","The characters' names, backgrounds, and experiences were presented in a culturally sensitive manner.",[5,5,2,0,0]],
-    [27,"Applicable in Japan and UK","The scenario could be applied effectively in both Japanese and UK cultural contexts.",[4,3,3,2,0]],
-    [28,"Comfortable discussing sensitive topics","I was comfortable discussing culturally sensitive topics within my group during the PBL session.",[4,7,1,0,0]]
+    [14,"Improved understanding of CHD","The scenario improved my understanding of coronary heart disease (CHD) and its associated risk factors.","冠動脈疾患の理解が深まった","このシナリオで冠動脈疾患（CHD）とその危険因子についての理解が深まった。",[5,5,2,0,0]],
+    [15,"Social determinants of health","The scenario helped me appreciate the role of social determinants in health outcomes.","健康の社会的決定要因","このシナリオで健康アウトカムにおける社会的決定要因の役割を理解できた。",[4,4,2,2,0]],
+    [16,"Diagnosis and management of angina","I was able to identify appropriate diagnostic and management steps for patients presenting with angina.","狭心症の診断と治療","狭心症患者に対する適切な診断・治療の手順を判断できた。",[2,6,2,2,0]],
+    [17,"Ethics of students in procedures","I developed a clearer understanding of the ethical considerations involved in involving students in clinical procedures.","臨床手技への学生参加の倫理","臨床手技に学生が関わる際の倫理的配慮について理解が深まった。",[3,8,0,0,1]],
+    [18,"Understanding of qualitative research","The discussion of different research methodologies enhanced my understanding of qualitative research in clinical settings.","質的研究の理解","さまざまな研究手法についての議論で、臨床における質的研究の理解が深まった。",[3,5,2,1,1]],
+    [19,"Relevant to my stage of training","The case was relevant to my current stage of medical training.","現在の学習段階に適している","この症例は現在の自分の医学教育の段階に適していた。",[5,5,2,0,0]],
+    [20,"Stimulated interest in cardiology","The scenario stimulated my interest in cardiovascular medicine.","循環器への関心が高まった","このシナリオで循環器医学への関心が高まった。",[6,2,3,1,0]],
+    [21,"Interactions felt realistic","The interactions between the doctor, patients, and student felt realistic and reflective of real-world practice.","やり取りが現実的だった","医師・患者・学生のやり取りは現実的で、実際の診療を反映していた。",[6,5,1,0,0]],
+    [22,"Clinical + psychosocial made it engaging","The inclusion of both clinical and psychosocial aspects made the case more engaging.","臨床面と心理社会面の両立","臨床面と心理社会面の両方が含まれていたことで、症例がより魅力的になった。",[8,3,1,0,0]],
+    [23,"Good balance of detail and context","The balance between clinical detail and patient context was appropriate.","臨床情報と患者背景のバランス","臨床的な詳細と患者の背景とのバランスが適切だった。",[6,5,1,0,0]],
+    [24,"Respected cultural differences","The scenario respected cultural differences in patient attitudes towards health, illness, and treatment.","文化的な違いを尊重","このシナリオは健康・病気・治療に対する患者の態度の文化的な違いを尊重していた。",[3,8,1,0,0]],
+    [25,"Inclusive, free of stereotypes","I felt that the scenario was inclusive and did not present any stereotypes or biases.","包摂的で偏見がない","このシナリオは包摂的で、ステレオタイプや偏見を含んでいなかった。",[4,7,1,0,0]],
+    [26,"Characters presented sensitively","The characters' names, backgrounds, and experiences were presented in a culturally sensitive manner.","登場人物の描写への配慮","登場人物の名前・背景・経験は文化的に配慮された形で描かれていた。",[5,5,2,0,0]],
+    [27,"Applicable in Japan and UK","The scenario could be applied effectively in both Japanese and UK cultural contexts.","日本と英国の両方で活用可能","このシナリオは日本と英国の両方の文化的文脈で効果的に活用できる。",[4,3,3,2,0]],
+    [28,"Comfortable discussing sensitive topics","I was comfortable discussing culturally sensitive topics within my group during the PBL session.","繊細な話題も安心して議論できた","PBLセッション中、グループ内で文化的に繊細な話題について安心して議論できた。",[4,7,1,0,0]]
   ];
-  const LABELS = {SD:"Strongly disagree",D:"Disagree",N:"Neutral",A:"Agree",SA:"Strongly agree"};
   const VARS = {SD:"--sd",D:"--d",N:"--n",A:"--a",SA:"--sa"};
+  const lk = k => LANG==="ja" ? JA["lk."+k] : EN["lk."+k];
   const area = document.getElementById("chart-area");
   const tip = document.getElementById("tip");
   const LMAX = 4, RMAX = 12, SPAN = LMAX + RMAX, CENTER = LMAX/SPAN*100, pct = v => (v/SPAN)*100;
+  let VIEW = "video";
 
   function showTip(e, html){
     tip.innerHTML = html; tip.style.opacity = 1;
@@ -764,23 +870,24 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     tip.style.left = x+"px"; tip.style.top = y+"px";
   }
   function hideTip(){ tip.style.opacity = 0; }
+  const esc = s => s.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
 
   function renderBars(items){
-    let html = `<div class="axis-head"><span></span><div class="dir"><span style="width:25%;text-align:right;padding-right:8px">← disagree</span><span style="padding-left:8px">agree →</span></div></div><div class="rows">`;
-    items.forEach(([no,short,full,c])=>{
-      const [SA,A,N,D,SD] = c;
-      // left side, outer to inner: SD, D, N/2 ; right side: N/2, A, SA
+    const u = UI[LANG], ja = LANG==="ja";
+    let html = `<div class="axis-head"><span></span><div class="dir"><span style="width:${CENTER}%;text-align:right;padding-right:8px">${u.dis}</span><span style="padding-left:8px">${u.agr}</span></div></div><div class="rows">`;
+    items.forEach(it=>{
+      const [no,sEn,fEn,sJa,fJa,c] = it, [SA,A,N,D,SD] = c;
+      const short = ja?sJa:sEn, full = ja?fJa:fEn;
       let x = CENTER - pct(SD + D + N/2);
       const segs = [["SD",SD],["D",D],["N",N],["A",A],["SA",SA]].filter(s=>s[1]>0);
       let segHtml = "";
       segs.forEach(([k,v],i)=>{
-        const w = pct(v);
-        const cls = (i===0?" end-l":"") + (i===segs.length-1?" end-r":"");
+        const w = pct(v), cls = (i===0?" end-l":"") + (i===segs.length-1?" end-r":"");
         const dark = (k==="D"||k==="N"||k==="A");
-        segHtml += `<div class="seg${cls}" data-k="${k}" data-v="${v}" style="left:${x}%;width:${w}%;background:var(${VARS[k]});color:var(${dark?"--seg-text-dark":"--seg-text-light"})">${w>=6?v:""}</div>`;
+        segHtml += `<div class="seg${cls}" data-k="${k}" data-v="${v}" style="left:${x}%;width:${w}%;background:var(${VARS[k]});color:var(${dark?"--seg-text-dark":"--seg-text-light"})">${w>=4.5?v:""}</div>`;
         x += w;
       });
-      html += `<div class="row" data-full="${full.replace(/"/g,"&quot;")}" data-no="${no}" data-agree="${SA+A}">
+      html += `<div class="row" data-full="${esc(full)}" data-no="${no}" data-agree="${SA+A}">
         <div class="lab"><b>${String(no).padStart(2,"0")}</b>${short}</div>
         <div class="track">${segHtml}</div></div>`;
     });
@@ -790,39 +897,57 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     area.querySelectorAll(".row").forEach(row=>{
       row.querySelectorAll(".seg").forEach(seg=>{
         seg.addEventListener("mousemove",e=>{
-          showTip(e, `<b>Item ${row.dataset.no}</b> · ${row.dataset.full}<br>${LABELS[seg.dataset.k]}: <b>${seg.dataset.v} of 12</b><br>Agree or strongly agree: ${row.dataset.agree} of 12`);
+          showTip(e, `<b>${u.item(row.dataset.no)}</b> · ${row.dataset.full}<br>${u.of(lk(seg.dataset.k), seg.dataset.v)}<br>${u.agree(row.dataset.agree)}`);
         });
         seg.addEventListener("mouseleave",hideTip);
       });
     });
   }
   function renderTable(){
-    const rows = VIDEO.concat(PBL).map(([no,,full,c])=>`<tr><td class="c">${no}</td><td>${full}</td>${c.map(v=>`<td class="c">${v||"–"}</td>`).join("")}</tr>`).join("");
+    const u = UI[LANG], ja = LANG==="ja";
+    const rows = VIDEO.concat(PBL).map(it=>`<tr><td class="c">${it[0]}</td><td>${ja?it[4]:it[2]}</td>${it[5].map(v=>`<td class="c">${v||"–"}</td>`).join("")}</tr>`).join("");
     area.innerHTML = `<div class="table-wrap"><table>
-      <thead><tr><th class="c">No</th><th>Item</th><th class="c">SA</th><th class="c">A</th><th class="c">N</th><th class="c">D</th><th class="c">SD</th></tr></thead>
+      <thead><tr><th class="c">${u.th[0]}</th><th>${u.th[1]}</th>${u.th.slice(2).map(h=>`<th class="c">${h}</th>`).join("")}</tr></thead>
       <tbody>${rows}</tbody></table></div>`;
   }
   const btns = {video:document.getElementById("btn-video"),pbl:document.getElementById("btn-pbl"),table:document.getElementById("btn-table")};
   const title = document.getElementById("chart-title");
   function setView(v){
+    VIEW = v;
     Object.entries(btns).forEach(([k,b])=>b.setAttribute("aria-pressed", String(k===v)));
-    if(v==="video"){title.textContent="How students rated the video";renderBars(VIDEO);}
-    else if(v==="pbl"){title.textContent="How students rated the PBL case scenario";renderBars(PBL);}
-    else {title.textContent="All 28 items, response counts";renderTable();}
+    title.textContent = UI[LANG].title[v];
+    if(v==="video") renderBars(VIDEO); else if(v==="pbl") renderBars(PBL); else renderTable();
     try{localStorage.setItem("ge-view",v);}catch(e){}
   }
   btns.video.onclick=()=>setView("video");
   btns.pbl.onclick=()=>setView("pbl");
   btns.table.onclick=()=>setView("table");
-  let start="video"; try{start=localStorage.getItem("ge-view")||"video";}catch(e){}
-  setView(start);
 
-  /* ---------- copy buttons ---------- */
+  /* ================= language ================= */
+  function setLang(l){
+    LANG = l;
+    document.documentElement.lang = l;
+    const dict = l==="ja" ? JA : EN;
+    document.querySelectorAll("[data-i18n]").forEach(el=>{ const k=el.dataset.i18n; if(k in dict) el.innerHTML = dict[k]; });
+    document.getElementById("lang-btn").textContent = UI[l].btn;
+    document.getElementById("lang-btn").setAttribute("aria-label", l==="ja" ? "Switch to English" : "日本語に切り替え");
+    labelClocks(); tick(); setView(VIEW);
+    try{localStorage.setItem("ge-lang",l);}catch(e){}
+  }
+  document.getElementById("lang-btn").addEventListener("click",()=>setLang(LANG==="ja"?"en":"ja"));
+
+  let startView="video", startLang=null;
+  try{ startView=localStorage.getItem("ge-view")||"video"; startLang=localStorage.getItem("ge-lang"); }catch(e){}
+  if(!startLang) startLang = (navigator.language||"").toLowerCase().startsWith("ja") ? "ja" : "en";
+  VIEW = startView;
+  setLang(startLang);
+
+  /* ================= copy buttons ================= */
   document.querySelectorAll(".copy").forEach(b=>{
     b.addEventListener("click", async ()=>{
-      try{ await navigator.clipboard.writeText(b.dataset.copy); b.textContent="Copied"; }
-      catch(e){ b.textContent="Select the address to copy"; }
-      setTimeout(()=>b.textContent="Copy",1800);
+      try{ await navigator.clipboard.writeText(b.dataset.copy); b.textContent=UI[LANG].copied; }
+      catch(e){ b.textContent=UI[LANG].copyFail; }
+      setTimeout(()=>b.textContent = LANG==="ja" ? JA["ct.copy"] : EN["ct.copy"],1800);
     });
   });
 })();
