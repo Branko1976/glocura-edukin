@@ -249,6 +249,12 @@ blockquote footer{margin-top:12px;font:400 .8rem var(--mono);color:var(--muted)}
 @media (max-width:860px){.p2{grid-template-columns:1fr}}
 @media (max-width:480px){.network li{grid-template-columns:1fr auto}.network .cty{display:none}}
 
+.p2-left{display:flex;flex-direction:column;gap:16px}
+.nextmod{display:block;text-decoration:none;color:var(--ink);border:1.5px dashed var(--accent);border-radius:16px;padding:20px 24px;background:color-mix(in srgb, var(--accent) 5%, var(--surface))}
+.nextmod .k{font:500 .75rem var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.nextmod p{margin:8px 0 10px;color:var(--muted);font-size:.95rem}
+.nextmod .go{font-weight:600;color:var(--accent);font-size:.92rem}
+.nextmod:hover{background:color-mix(in srgb, var(--accent) 10%, var(--surface))}
 /* exchange */
 .xch{display:grid;grid-template-columns:1fr 1.35fr;gap:32px;align-items:start}
 .route{background:var(--hero-bg);color:var(--hero-ink);border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:22px}
@@ -356,7 +362,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
         <h1 class="wordmark">Glocura<span>Edukin</span></h1>
       </div>
       <div>
-        <p class="lede" data-i18n="hero.lede">Medical students in different countries watch the same clinical video, then reason through it together.</p>
+        <p class="lede" data-i18n="hero.lede">Medical students in different countries watch the same clinical clip from a medical drama, then reason through it together.</p>
         <p class="lede-sub" data-i18n="hero.sub">A video-triggered problem-based learning (PBL) collaboration led by Lancaster Medical School and Nagoya University Graduate School of Medicine, now growing into a network of medical schools across Europe and Asia.</p>
         <div class="hero-actions">
           <a class="btn primary" href="#join" data-i18n="hero.btn1">Bring your institution in</a>
@@ -390,14 +396,14 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       <p class="about-text" data-i18n="about.theory">The project rests on <em>sociocultural learning theory</em>: knowledge is built through social interaction, and talking with peers trained in a different setting exposes the assumptions each group brings to a clinical encounter.</p>
       <div class="pillars">
         <article class="pillar">
-          <div class="k" data-i18n="p1.k">Scaffold</div>
-          <h3 data-i18n="p1.h">A short clinical video</h3>
-          <p data-i18n="p1.p">A real-time clinical scene gives every student the same starting point, regardless of language, curriculum or year.</p>
+          <div class="k" data-i18n="p1.k">Hook</div>
+          <h3 data-i18n="p1.h">A clinical clip from a medical drama</h3>
+          <p data-i18n="p1.p">A short scene from a medical drama series such as <i>Casualty</i> or <i>House M.D.</i> draws students in and gives everyone the same starting point, regardless of language, curriculum or year.</p>
         </article>
         <article class="pillar">
-          <div class="k" data-i18n="p2.k">Hook</div>
-          <h3 data-i18n="p2.h">A shared PBL case</h3>
-          <p data-i18n="p2.p">A scenario written by Lancaster Medical School is delivered at every partner site, so the discussion carries into each local tutorial.</p>
+          <div class="k" data-i18n="p2.k">Scaffold</div>
+          <h3 data-i18n="p2.h">A shared PBL scenario</h3>
+          <p data-i18n="p2.p">A scenario written by Lancaster Medical School structures the learning: the session's learning objectives are planned from it, and every partner site works the same case.</p>
         </article>
         <article class="pillar">
           <div class="k" data-i18n="p3.k">Dialogue</div>
@@ -423,7 +429,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
         <div class="rail"></div>
         <div class="where" data-i18n="s1.w">Before · each student</div>
         <h3 data-i18n="s1.h">Watch the video</h3>
-        <p data-i18n="s1.p">Students receive the clinical clip in advance, so the live hour is spent on discussion rather than streaming.</p>
+        <p data-i18n="s1.p">Students receive the clip from a medical drama in advance, so the live hour is spent on discussion rather than streaming.</p>
         <span class="t" data-i18n="s1.t">≈ 10 minutes</span>
       </div>
       <div class="step joint">
@@ -554,6 +560,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       </div>
     </div>
     <div class="p2">
+      <div class="p2-left">
       <div class="module">
         <div class="k" data-i18n="mod.k">Current module</div>
         <h3 data-i18n="mod.h">Hepato&shy;biliary <span>system</span></h3>
@@ -561,9 +568,15 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
         <dl data-i18n="mod.dl">
           <dt>Joint session</dt><dd>Friday 9 October 2026, 08:00–09:00 UK</dd>
           <dt>Scenario</dt><dd>PBL case developed by Lancaster University</dd>
-          <dt>Video</dt><dd>Short clinical clip sent to students in advance</dd>
+          <dt>Video</dt><dd>Clip from the medical drama <i>House M.D.</i>, sent to students in advance</dd>
           <dt>Evaluation</dt><dd>29-item Likert questionnaire on the video and the PBL experience</dd>
         </dl>
+        </div>
+        <a class="nextmod" href="#join">
+          <div class="k" data-i18n="nx.k">Next module · in planning</div>
+          <p data-i18n="nx.p">The body system and dates for the next joint session are being decided now. Universities interested in joining are welcome to contact us from the start.</p>
+          <span class="go" data-i18n="nx.go">Get in touch →</span>
+        </a>
       </div>
       <div>
         <ul class="network" aria-label="Partner institutions">
@@ -573,7 +586,6 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
           <li><div class="nm" data-i18n="n4">Ajman University</div><span class="cty" data-i18n="c.ae">United Arab Emirates</span><span class="off">UTC+4</span></li>
           <li><div class="nm" data-i18n="n5">AIIMS Rishikesh<small>Department of Anatomy</small></div><span class="cty" data-i18n="c.in">India</span><span class="off">UTC+5:30</span></li>
           <li><div class="nm" data-i18n="n6">Jaipur National University<small>Department of Anatomy</small></div><span class="cty" data-i18n="c.in">India</span><span class="off">UTC+5:30</span></li>
-          <li><div class="nm" data-i18n="n7">Krishna Vishwa Vidyapeeth<small>Department of Anatomy, Karad</small></div><span class="cty" data-i18n="c.in">India</span><span class="off">UTC+5:30</span></li>
         </ul>
       </div>
     </div>
@@ -651,7 +663,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
       <article class="person">
         <div class="avatar" style="background:#1f4fd8">KK</div>
         <div><div class="role" data-i18n="kk.r">Project co-lead · UK</div><h3>Karuna Katti</h3></div>
-        <p data-i18n="kk.p">MD, PhD. Associate Professor and Director of the Clinical Anatomy Learning Centre at Lancaster Medical School. Leads the PBL scenarios and coordinates the partner network.</p>
+        <p data-i18n="kk.p">MBBS, MS, FHEA. Associate Professor and Director of the Clinical Anatomy Learning Centre at Lancaster Medical School. Leads the PBL scenarios and coordinates the partner network.</p>
         <div class="loc" data-i18n="kk.l">Lancaster University, United Kingdom</div>
       </article>
       <article class="person">
@@ -722,7 +734,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
   const JA = {
     "nav.about":"概要","nav.model":"セッションの流れ","nav.pilot":"パイロット研究","nav.network":"ネットワーク","nav.xch":"学生交流","nav.timeline":"沿革","nav.team":"チーム","nav.join":"参加する",
     "hero.eyebrow":"グローバル医学教育パートナーシップ",
-    "hero.lede":"異なる国の医学生が同じ臨床ビデオを視聴し、ともに臨床推論を深めます。",
+    "hero.lede":"異なる国の医学生が医療ドラマの同じ臨床クリップを視聴し、ともに臨床推論を深めます。",
     "hero.sub":"ランカスター大学医学部と名古屋大学大学院医学系研究科が主導する、ビデオ誘発型の問題基盤型学習（PBL）の国際共同プロジェクトです。現在、欧州とアジアの医学部へとネットワークを広げています。",
     "hero.btn1":"参加を検討する","hero.btn2":"パイロット研究の結果",
     "hero.clocks":"<strong>同じ1時間を、複数の教室で。</strong>各地の現在時刻と、2026年10月9日の合同セッション開始時刻。",
@@ -730,12 +742,12 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     "about.h2":"異なる医療制度で学ぶ仲間とともに、医学を学ぶ",
     "about.p":"Glocura Edukinは、提携医学部の学生を一つのセッションに集めます。学生は画面上で同じ患者に出会い、気づいたことを書き留め、少人数の混成グループで臨床推論を比べ合います。その後、各校が自校のPBLチュートリアルで同じ症例に取り組みます。",
     "about.theory":"本プロジェクトは<em>社会文化的学習理論</em>に基づいています。知識は社会的相互作用を通じて構築されるものであり、異なる環境で学ぶ仲間との対話は、各グループが臨床場面に持ち込む前提を浮き彫りにします。",
-    "p1.k":"足場","p1.h":"短い臨床ビデオ","p1.p":"リアルタイムの臨床場面が、言語やカリキュラム、学年に関係なく、全員に共通の出発点を与えます。",
-    "p2.k":"フック","p2.h":"共通のPBL症例","p2.p":"ランカスター大学医学部が作成したシナリオを全提携校で実施するため、議論が各校のチュートリアルへとつながります。",
+    "p1.k":"フック","p1.h":"医療ドラマの臨床クリップ","p1.p":"『Casualty』や『Dr. HOUSE』などの医療ドラマの短い場面が学生の関心を引きつけ、言語やカリキュラム、学年に関係なく、全員に共通の出発点を与えます。",
+    "p2.k":"足場","p2.h":"共通のPBLシナリオ","p2.p":"ランカスター大学医学部が作成したシナリオが学習の骨組みとなります。セッションの学習目標はこのシナリオに基づいて設定され、全提携校が同じ症例に取り組みます。",
     "p3.k":"対話","p3.h":"機関横断グループ","p3.p":"ブレイクアウトルームで異なる大学の学生が混ざり、印象や優先順位、働き方の違いを比べ合います。",
     "model.tag":"02 · セッションの流れ","model.h2":"Glocura Edukinセッションの進め方",
     "model.p":"赤のステップは全提携校がオンラインで同時に参加するライブ部分、グレーのステップは各校で個別に行う部分です。",
-    "s1.w":"事前 · 各学生","s1.h":"ビデオを視聴","s1.p":"臨床クリップを事前に受け取るため、ライブの時間を議論に充てられます。","s1.t":"約10分",
+    "s1.w":"事前 · 各学生","s1.h":"ビデオを視聴","s1.p":"医療ドラマのクリップを事前に受け取るため、ライブの時間を議論に充てられます。","s1.t":"約10分",
     "s2.w":"ライブ · 合同","s2.h":"振り返り","s2.p":"各学生が、印象・感情的な反応・学びのポイントを短い振り返りとしてまとめます。","s2.t":"英国時間 8:00",
     "s3.h":"機関を越えて議論","s3.p":"少人数の異文化ブレイクアウトグループで、何を見て、どう行動するかを比べ合います。","s3.t":"英国時間 9:00まで",
     "s4.w":"各校 · 個別","s4.h":"PBL症例に取り組む","s4.p":"各機関が同じ共通シナリオを用いて、自校のPBLチュートリアルを行います。","s4.t":"通常のチュートリアル枠",
@@ -767,12 +779,12 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     "pub.b":"論文","pub.m":"<i>BMC Medical Education</i> に改訂稿を投稿（2026年）。",
     "net.tag":"04 · 第2期 · 2026","net.h2":"2校から国際ネットワークへ",
     "net.p":"パイロット研究を踏まえ、現在は欧州とアジアの提携機関とともに、複数の器官系にわたる合同セッションを実施しています。",
-    "mod.k":"現在のモジュール","mod.h":"肝胆膵<span>領域</span>",
+    "nx.k":"次のモジュール · 計画中","nx.p":"次回の合同セッションで扱う器官系と日程を現在検討中です。参加を希望する大学からのご連絡を、計画段階からお待ちしています。","nx.go":"お問い合わせ →","mod.k":"現在のモジュール","mod.h":"肝胆膵<span>領域</span>",
     "mod.org":"<span>肝臓</span><span>膵臓</span><span>胆嚢</span>",
-    "mod.dl":"<dt>合同セッション</dt><dd>2026年10月9日（金）英国時間 8:00–9:00</dd><dt>シナリオ</dt><dd>ランカスター大学が作成したPBL症例</dd><dt>ビデオ</dt><dd>事前に学生へ送付する短い臨床クリップ</dd><dt>評価</dt><dd>ビデオとPBL体験に関する29項目のリッカート質問票</dd>",
+    "mod.dl":"<dt>合同セッション</dt><dd>2026年10月9日（金）英国時間 8:00–9:00</dd><dt>シナリオ</dt><dd>ランカスター大学が作成したPBL症例</dd><dt>ビデオ</dt><dd>医療ドラマ『Dr. HOUSE』のクリップ（事前に学生へ送付）</dd><dt>評価</dt><dd>ビデオとPBL体験に関する29項目のリッカート質問票</dd>",
     "n1":"ランカスター大学医学部<small>ランカスター大学</small>","n2":"大学院医学系研究科<small>名古屋大学</small>",
     "n3":"バフチェシェヒル大学<small>医学部 解剖学講座（イスタンブール）</small>","n4":"アジュマーン大学",
-    "n5":"全インド医科大学 リシケシュ校（AIIMS）<small>解剖学講座</small>","n6":"ジャイプル国立大学<small>解剖学講座</small>","n7":"クリシュナ・ヴィシュワ・ヴィディヤピート<small>解剖学講座（カラド）</small>",
+    "n5":"全インド医科大学 リシケシュ校（AIIMS）<small>解剖学講座</small>","n6":"ジャイプル国立大学<small>解剖学講座</small>",
     "c.uk":"英国","c.jp":"日本","c.tr":"トルコ","c.ae":"アラブ首長国連邦","c.in":"インド",
     "tl.tag":"06 · 沿革",
     "tl6x":"<time>2026年7月</time><div><h3>ランカスターの学生が初めて名古屋へ</h3><p>名古屋大学に2週間滞在。国際サマープログラムに参加した後、AIによる医療面接チャットボットの研究実習に取り組む。</p></div>","tl.h2":"これまでの歩み",
@@ -795,7 +807,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     "xs3.t":"2026年7月14日–20日","xs3.l":"ステージ2","xs3.h":"研究実習","xs3.p":"国際医学教育学に参加し、名古屋大学のPBLシナリオ2本をもとに、学部教育で活用する医療面接用AIチャットボットの開発に取り組みました。",
     "xch.next":"<b>今後：</b>名古屋の学生がランカスターを訪問する、双方向の交流を目指しています。","team.h2":"プロジェクトリーダー",
     "kk.r":"共同代表 · 英国","ba.r":"共同代表 · 日本",
-    "kk.p":"MD, PhD。ランカスター大学医学部 准教授、臨床解剖学ラーニングセンター長。PBLシナリオの作成と提携ネットワークの調整を担当。",
+    "kk.p":"MBBS, MS, FHEA。ランカスター大学医学部 准教授、臨床解剖学ラーニングセンター長。PBLシナリオの作成と提携ネットワークの調整を担当。",
     "kk.l":"ランカスター大学（英国）",
     "ba.p":"MD, PhD。名古屋大学大学院医学系研究科 国際医学教育学 准教授。<i>International Medical Education</i> 誌 編集長（Editor-in-Chief）。",
     "ib.p":"MD, PhD。名古屋大学大学院医学系研究科 国際医学教育学 准教授。<i>International Medical Education</i> 誌 アソシエイトエディター。",
@@ -830,7 +842,7 @@ footer.site-foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-
     {en:["Nagoya","Nagoya University"], ja:["名古屋","名古屋大学"], tz:"Asia/Tokyo"},
     {en:["Istanbul","Bahçeşehir University"], ja:["イスタンブール","バフチェシェヒル大学"], tz:"Europe/Istanbul"},
     {en:["Ajman","Ajman University"], ja:["アジュマーン","アジュマーン大学"], tz:"Asia/Dubai"},
-    {en:["India","AIIMS Rishikesh · JNU Jaipur · KVV Karad"], ja:["インド","AIIMSリシケシュ · JNUジャイプル · KVVカラド"], tz:"Asia/Kolkata"}
+    {en:["India","AIIMS Rishikesh · JNU Jaipur"], ja:["インド","AIIMSリシケシュ · JNUジャイプル"], tz:"Asia/Kolkata"}
   ];
   const host = document.getElementById("clocks");
   const fmt = tz => new Intl.DateTimeFormat("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false,timeZone:tz});
